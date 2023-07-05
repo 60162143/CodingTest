@@ -1,0 +1,10 @@
+n , k = map(int, input().split())
+count = 0
+arr = [int(input()) for _ in range(n) ]
+arr.sort(reverse=True)
+
+for i in arr :
+  count += k // i
+  k -= k // i * i
+
+print(count)
