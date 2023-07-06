@@ -1,0 +1,17 @@
+
+문제 : https://www.acmicpc.net/problem/1026
+
+## 알아야 될 것들
+list.pop : 배열의 원소를 찾아서 꺼내기
+list.index : 해당 값의 index 찾기
+
+n = int(input())
+total = 0
+arr1 = list(map(int, input().split()))
+arr2 = list(map(int, input().split()))
+arr1.sort()
+
+for i in range(n) :
+  total += arr2.pop(arr2.index(max(arr2))) * arr1[i]
+
+print(total)
