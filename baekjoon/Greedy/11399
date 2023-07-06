@@ -1,0 +1,12 @@
+
+문제 : https://www.acmicpc.net/problem/11399
+
+n = int(input())
+total = 0
+arr = list(map(int, input().split()))
+arr.sort()
+
+for i in range(n) :
+  total += sum(arr[0:i + 1])
+
+print(total)
