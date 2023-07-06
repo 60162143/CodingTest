@@ -1,4 +1,5 @@
 ## 다시 푸세요!
+https://www.acmicpc.net/problem/2839
 
 n = int(input())
 count = 0
