@@ -1,0 +1,15 @@
+
+문제 : https://www.acmicpc.net/problem/2217
+
+n = int(input())
+arr = []
+total = 0
+for i in range(n) :
+  arr.append(int(input()))
+
+arr.sort()
+
+for i in range(n - 1, -1, -1) :
+  total = max(total, arr[i] * (n - i))
+
+print(total)
