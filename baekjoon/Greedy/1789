@@ -1,0 +1,14 @@
+
+# 문제 : https://www.acmicpc.net/problem/1789
+
+
+n = int(input())  # 자연수 합 입력
+count = 0  # n의 최댓값
+
+# 작은 수부터 우선적으로 더해서 
+# 그 값이 n보다 커질때까지 계산
+while count < n :
+  count += 1
+  n -= count
+
+print(count)
