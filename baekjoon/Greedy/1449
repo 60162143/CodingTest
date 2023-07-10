@@ -1,0 +1,28 @@
+
+# 문제 : https://www.acmicpc.net/problem/1449
+
+# Key Point
+# 1. 물이 새는 곳의 위치를 오름차순 정렬
+# 2. 테이프의 개수를 더 적게 사용하면서 붙이기 위해
+# for문으로 시작점부터 위치 값 구하기
+
+# 코드
+n, l = map(int, input().split())  # n : 물이 새는 곳의 개수, l : 테이프의 길이
+
+loc = list(map(int, input().split()))  # 물이 새는 곳의 위치 입력
+loc.sort()  # 위치 오름차순 정렬
+standard = loc[0]  # 테이프를 붙일 시작점
+count = 1  # 붙인 테이프의 개수, 처음에 붙이고 시작하므로 1
+
+# 테이프를 붙일 개수 찾기
+for i in range(1, len(loc)) :
+  # 시작점부터 위치가 테이프의 길이 -1 보다 작으면 더 많은 위치를 붙일 수 있으므로 contiune
+  if standard + l - 1 >= loc[i] :
+    continue
+  else :
+    # 테이프의 길이보다 위치 값이 크면 새로운 테이프 붙이기
+    # 시작점은 현재 위치로 변경
+    count += 1
+    standard = loc[i]
+
+print(count)
