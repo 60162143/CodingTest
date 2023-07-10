@@ -1,0 +1,12 @@
+
+# 문제 : https://www.acmicpc.net/problem/18310
+
+# keyPoint
+# 정렬을 한 중간 값이 항상 거리가 최소가 되는 엄청 간단한 문제
+
+
+n = int(input())
+
+house = list(map(int, input().split()))
+house.sort()
+print(house[(len(house) - 1) // 2])
