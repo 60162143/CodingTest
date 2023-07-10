@@ -1,0 +1,14 @@
+
+# 문제 : https://www.acmicpc.net/problem/10610
+
+# 알아야 할 점 : 
+# 1. 순열 라이브러리는 메모리를 굉장히 많이 잡아 먹는다!!
+# 2. join은 문자열을 합치는 함수 ( 정수형이 리스트에 있는 경우 map으로 str로 변환 해야 join할 수 있음 )
+
+arr = list(map(int, input()))
+arr.sort(reverse=True)
+num = int(''.join(map(str, arr)))
+if num % 5 == 0 and num % 3 == 0 and num % 2 == 0 :
+  print(num)
+else :
+  print(-1)
