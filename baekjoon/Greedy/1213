@@ -1,0 +1,37 @@
+
+# 문제 : https://www.acmicpc.net/problem/1213
+
+# 아쉬운점
+# Collection 라이브러리의 Counter 함수
+# 코드를 종료시키는 exit 함수
+# Counter의 반환값인 딕셔너리의 Key, Value를 얻는 itmes 함수
+# 리스트 슬라이싱( [::-1])을 통해 리스트를 거꾸로 출력 가
+
+name = list(input())  # 문자열 입력
+name.sort()  # 문자열 정렬
+name2 = []  # 최종 문자열
+
+while True :
+  # 입력받은 문자열의 길이가 0일 경우 팰린드롬 된 문자열 출력
+  if len(name) == 0 :
+    print(''.join(name2))
+    break
+  # 입력받은 문자열의 길이가 1일 경우 
+  # 중앙에 위치할 문자열만 남았기 때문에 팰린드롬 된 문자열에 더해서 출력
+  elif len(name) == 1 :
+    name2.insert(len(name2) // 2, name.pop(0))
+    print(''.join(name2))
+    break
+
+  # 연속된 문자열이 같은지 확인
+  # 같을 경우 리스트에서 pop, 연속된 두자리가 아닌 세자리 확인
+  # 다를 경우 안된다고 출력
+  if len(name) > 1 and name[0] == name[1] :
+    name2.insert(len(name2) // 2, name.pop(0))
+    name2.insert(len(name2) // 2 + 1, name.pop(0))
+  elif len(name) > 2 and name[1] == name[2] :
+    name2.insert(len(name2) // 2, name.pop(1))
+    name2.insert(len(name2) // 2 + 1, name.pop(1))
+  else :
+    print("I'm Sorry Hansoo")
+    break
