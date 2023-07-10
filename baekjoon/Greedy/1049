@@ -1,0 +1,27 @@
+
+# 문제 : https://www.acmicpc.net/problem/1049
+
+# keyPoint
+# 1. 6개줄 또는 낱개 줄을 가장 싸게 구매하는 것이 목적
+
+
+n, m = map(int, input().split())  # n, m 입력
+# 각 브랜드의 6개줄과 낱개줄의 가격을 튜플로 입력
+line = [tuple(map(int, input().split())) for _ in range(m)]
+
+# 6개줄, 낱개줄 가격순으로 각각 정렬
+six = sorted(line, key=lambda x:x[0])
+one = sorted(line, key=lambda x:x[1])
+
+# one[0][1] = 가장 싼 낱개 줄 가격
+# six[0][0] = 가장 싼 6개 줄 가격
+if one[0][1] * 6 < six[0][0] :
+  # 낱개줄 6개를 구매한 가격이 6개줄 구매한 가격보다 쌀 경우 낱개줄로만 구매
+  print(n * one[0][1])
+elif (n % 6) * one[0][1] > six[0][0] :
+  # 6개 줄을 사고 남은 줄을 낱개로 구매한 가격보다 6개 줄로 구매한 가격이 쌀 경우 
+  # 남더라도 6개 줄로 구매
+  print((n // 6 + 1 ) * six[0][0])
+else :
+# 6개 줄을 사고 남은 줄은 가장 싼 낱개 줄로 구매
+  print(n // 6 * six[0][0] + n % 6 * one[0][1])
