@@ -1,0 +1,20 @@
+
+# 문제 : https://www.acmicpc.net/problem/13305
+
+# 알야야 할 점 : list Slicing의 시간 복잡도는 O(N)이다!!
+
+n = int(input())
+
+distance = list(map(int, input().split()))
+price = list(map(int, input().split()))
+
+total = 0
+minPrice = price[0]
+
+for i in range(len(distance)) :
+  if price[i] < minPrice :
+    minPrice = price[i]
+    
+  total += minPrice * distance[i]
+
+print(total)
