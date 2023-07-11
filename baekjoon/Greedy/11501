@@ -1,0 +1,29 @@
+
+# 문제 : https://www.acmicpc.net/problem/11501
+
+# keyPoint
+# 1. 리스트를 앞에서부터 순회하면서 최댓값을 만나면 주식을 팔고 이후 리스트의 최댓값을 갱신한 후 계산했더니 시간 초과가 나옴
+# 2. 리스트를 앞에서부터 순회하는 것이 아닌 뒤에서 부터 순회해서 최댓값을 만나면 최댓값을 갱신하고
+# 최댓값이 아닌 경우 최댓값에서 다음 리스트의 값을 빼줌
+# 3. 리스트가 뒤에서부터 순회할 수 있음을 명심하자
+
+# code
+from sys import stdin
+
+t = int(stdin.readline())  # 테스트 케이스 수 입력
+
+for _ in range(t) :
+    n = int(stdin.readline())  # 날 수 입력
+    day = list(map(int, stdin.readline().split()))  # 날 별 주가 입력
+
+    mx = day[-1]  # 맨 뒤에 있는 값을 최댓값으로 초기화
+    total = 0  # 이익
+
+    # 리스트를 뒤에서 부터 순회
+    for i in range(n - 2, -1, -1) :
+        if day[i] > mx :  # 해당 일의 주가가 최댓값을 넘는 경우 최댓값 갱신
+            mx = day[i]
+        else :  # 해당 일의 주가가 최댓값을 넘지 않는 경우 이익이 났으므로 이익 계산
+            total += mx - day[i]
+            
+    print(total)
