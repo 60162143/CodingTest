@@ -1,0 +1,24 @@
+
+# 문제 : https://www.acmicpc.net/problem/1541
+
+# keyPoint
+# 1. 덧셈부터 계산한 뒤에 뺄셈을 함으로 더욱 큰수가 마이너스가 되게 만들기
+# 2. split 함수를 이용해서 '-'와 '+'를 나누고 eval 함수를 이용해서 문자열로 된 식 계산
+# 3. 00009와 같은 문자열이 들어올 수 있으므로 int 함수를 이용해서 정수로 바꿔준 뒤 계산
+
+
+sik = input()  # 식 입력
+sik_list = sik.split("-")  # '-'를 구분자로 나눔
+total = 0  # 최종 값
+
+# '-'가 식에 없을 경우 '+'만 계산
+for i in sik_list[0].split("+") :
+  total += int(i)  # 정수로 바꿔준 후 계산
+
+# '-'rk 식에 있을 경우
+for i in sik_list[1:] :
+  # '+'로 나누어서 계산
+  for j in i.split("+") :
+    total -= int(j)  # 정수로 바꿔준 후 계산
+
+print(total)
