@@ -1,0 +1,32 @@
+
+# 문제 : https://www.acmicpc.net/problem/16953
+
+# keyPoint
+# 1. bottom-up이 아닌 top-bottom으로 문제 해결
+# 2. 짝수일 경우 나누기 2를 진행
+# 3. 오른쪽 끝이 1일경우 1제거
+# 4. 2,3과정에 포함되지 않을 경우 -1출력
+
+# code
+from sys import stdin
+a, b = map(int, stdin.readline().split())  # a, b 입력
+count = 1  # 연산 최솟값, 기본 1
+
+# top-bottom으로 top이 bottom보다 클 경우 반복
+while b >= a :
+  if a == b :  # a와 b가 같아질 경우 최솟값 계산 완료
+    break
+  
+  if b % 2 == 0 :  # 짝수일 경우 나누기 2
+    b //= 2
+    count += 1
+  elif b % 10 == 1 :  # 맨 마지막 자리수 숫자가 1일 경우 1제거
+    b //= 10
+    count += 1
+  else :  # 위 두 과정에 포함 되지 않을 경우 계산 불가
+    count = -1
+    break
+else :
+  count = -1
+
+print(count)
