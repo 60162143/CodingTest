@@ -1,0 +1,24 @@
+
+# 문제 : https://www.acmicpc.net/problem/2872
+
+# keyPoint
+# 1. 그리디 문제는 간단하게 풀 수 있는 방법이 항상 존재
+# 2. 리스트 관련 함수들은 거의 O(N)이므로 시간복잡도에 유의할 것
+# 3. 가장 큰수를 기준으로 왼쪽으로 정렬되어 있는 수를 제외한 나머지 수들은 최소 한번은 움직여야 함
+
+# code
+from sys import stdin
+
+n = int(stdin.readline())  # 책의 개수 입력
+book = [int(stdin.readline()) for _ in range(n)]  # 책들의 우선순위 입력
+
+mx = max(book)  # 우선순위가 가장 낮은 값
+idx = book.index(mx)  # 우선순위가 가장 낮은 값의 index
+
+# 우선순위가 가장 낮은 값의 index를 기준으로 왼쪽으로 순회하며 정렬되어 있는 값을 확인
+for i in range(idx - 1, -1, -1) :
+    if book[i] == mx - 1 :  # 우선순위 바로 윗단계의 우선순위가 있으면 mx값 갱신
+        mx -= 1
+
+# 순위는 0을 포함하지 않기 때문에 최종 우선순위가 가장 낮은값에서 -1
+print(mx - 1)
