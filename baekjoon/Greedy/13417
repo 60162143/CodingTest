@@ -1,0 +1,27 @@
+
+# 문제 : https://www.acmicpc.net/problem/13417
+
+# keyPoint
+# 1. 입력받은 리스트를 순회하면서 값이 작으면 앞에 insert, 값이 크면 뒤에 append
+
+# code
+from sys import stdin
+
+t = int(stdin.readline())  # 테스트 케이스 개수 입력
+
+for _ in range(t) :
+    n = int(stdin.readline())  # 문자열 개수 입력
+    alpha = list(map(str, stdin.readline().split()))  # 문자열 입력
+    answer = []  # 출력할 문자열
+
+    # 리스트를 순회하면서 값이 출력할 문자열의 0번 인덱스의 값과 비교
+    for i in alpha :
+        if len(answer) == 0 :  # 출력할 문자열이 비었을 경우 넣어줌
+            answer.append(i)
+        else :
+            if answer[0] >= i :  # i가 출력할 문자열의 맨 앞의 값과 같거나 작을경우 맨 앞으로 insert
+                answer.insert(0, i)
+            else :  # 값이 클 경우 맨뒤로 append
+                answer.append(i)
+        
+    print(''.join(answer))
