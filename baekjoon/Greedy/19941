@@ -1,0 +1,26 @@
+
+# 문제 : https://www.acmicpc.net/problem/19941
+
+# keyPoint
+# 1. 오른쪽에 있는 햄버거부터 먹으면 뒤로 갈수록 경우에 수가 많아짐
+
+# code
+from sys import stdin
+
+n, k = map(int, stdin.readline().split())  # n, k 입력
+
+arr = list(stdin.readline())  # 식탁 입력
+count = 0  # 햄버거를 먹은 사람의 수
+
+# 리스트를 순회하면서 오른쪽부터 햄버거 먹기
+for i in range(n) :
+    if arr[i] == 'P' :  # 사람이 있는 위치 찾기
+        # 위치를 기준으로 +-k 만큼의 위치에서 가장 오른쪽에 있는 햄버거 먹기
+        # 범위가 배열안에 있어야 하기 때문에 0보다 작으면 0부터 시작, n보다 크면 n까지
+        for j in range(max(0, i - k), min(n, i + k + 1)) :
+            if arr[j] == 'H' :  # 햄버거를 찾은 경우
+                arr[j] = 'T'  # 햄버거를 먹은 표시로 다른 값으로 변경
+                count += 1    # 햄버거를 먹은 사람 수 증가
+                break
+            
+print(count)
