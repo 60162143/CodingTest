@@ -1,0 +1,21 @@
+
+# 문제 : https://www.acmicpc.net/problem/1448
+
+# keyPoint
+# 1. 삼각형의 제일 긴 변의 길이는 다른 두 변의 길이보다 짧아야 함 ( 삼각형 성립 조건 )
+
+# code
+from sys import stdin
+
+n = int(stdin.readline())  # 빨대 개수 입력
+strow = [int(stdin.readline()) for _ in range(n)]  # 빨대 길이 입력
+strow.sort(reverse=True)  # 빨대 길이 내림차순 정렬
+total = -1  # 삼각형의 변의 길이 합, 성립 안될 경우 -1
+
+# 리스트를 순회하면서 3개씩 묶어서 계신
+for i in range(n - 2) :
+    if strow[i] < strow[i + 1] + strow[i + 2] :  # 빨대의 제일 긴 변의 길이가 다른 두 변의 길이의 합보다 짧은지 확인
+        total = sum(strow[i : i + 3])  # 삼각형의 변의 길이 합 계산
+        break
+    
+print(total)
