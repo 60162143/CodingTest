@@ -1,0 +1,19 @@
+
+# 문제 : https://www.acmicpc.net/problem/1758
+
+# keyPoint
+# 1. 팁을 많이 줄 수록 줄을 앞쪽에 섰을 때 팁을 가장 많이 받을 수 있음
+
+#code
+from sys import stdin
+
+n = int(stdin.readline())  # 사람 수 입력
+person = [int(stdin.readline()) for _ in range(n)]  # 사람이 주려고 하는 팁 입력
+person.sort(reverse=True)  # 팁을 내림차순으로 정렬
+total = 0  # 받은 팁
+
+# 음수일 경우 0으로 계산
+for i in range(n) :
+    total += max(0, person[i] - i)
+    
+print(total)
