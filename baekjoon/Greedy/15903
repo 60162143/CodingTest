@@ -1,0 +1,27 @@
+
+# 문제 : https://www.acmicpc.net/problem/15903
+
+# keyPoint
+# 1. heap 자료구조로 쉽게 풀이 가능
+# 2. heap 자료구조는 java의 우선순위큐와 비슷하며 완전이진탐색트리 형태를 가짐
+
+# code
+from sys import stdin
+from heapq import heapify, heappop, heappush
+n, m = map(int, stdin.readline().split())    # n, m 입력
+card = list(map(int, stdin.readline().split()))  # 카드의 상태 입력
+
+heapify(card)  # 힙 자료구조로 변환 ( sorting ), 시간 복잡도는 정렬 알고리즘과 같은 O(nlogn)
+
+# 파이썬 힙 자료구조는 기본적으로 최소힙으로 구현되어있기 때문에
+# 맨 앞의 값이 가장 작음
+for i in range(m) :
+    # 가작 작은 맨 앞의 값 추출, 값을 추출한 뒤 제일 큰 수가 맨 앞으로 오면서 하향식 이진탐색으로 비교, 정렬
+    x = heappop(card)  
+    y = heappop(card)
+    
+    # 값을 맨 뒤에 넣은 후 상향식 이진탐색으로 비교, 정렬
+    heappush(card, x + y)
+    heappush(card, x + y)
+
+print(sum(card))
