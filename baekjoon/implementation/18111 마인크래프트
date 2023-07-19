@@ -1,0 +1,48 @@
+
+# 문제 : https://www.acmicpc.net/problem/18111
+
+# keyPoint
+# 1. Python3로 돌릴경우 시간초과가 날 수 있음
+# 2. pypy로 컴파일 해보자
+# 3. 최대 블록 높이에서 -1씩 하면서 소요시간을 계산할 때 계산 시간이 높아지는 부분부터 시간이 다시 증가하므로
+# 높아지기 전의 소요 시간이 가장 작은 소요 시간이 됨
+
+# code
+from sys import stdin
+n, m, b = map(int, stdin.readline().split())  # n, m, b 입력
+mx = 0  # 블록 높이의 최대값
+block = []  # 블록 입력 배열
+mn = -1  # 시간 최소값, 초기 -1로 초기화
+
+for i in range(n) :
+    lt = list(map(int, stdin.readline().split()))  # 블록 높이 한줄 입력
+    mx = max(lt)  # 블록 높이 최대값 계산
+    block.append(lt)
+
+# 블록 높이의 최댓값을 -1씩 낮추면서 반복
+while mx >= 0 :
+    inven = b  # 현재 인벤토리
+    time = 0  # 소요된 시간
+    
+    # 블록 전체 순회
+    for i in range(n) :
+        for j in range(m) :
+            if mx > block[i][j] : # 최대 높이보다 낮을 경우 블록 쌓기 (1초) 
+                inven -= mx - block[i][j]  # 인벤토리 계산
+                time += mx - block[i][j]  # 소요 시간 계산
+            else : # 최대 높이보다 높을 경우 블록 부수기 (2초)
+                inven += block[i][j] - mx  # 인벤토리 계산
+                time += (block[i][j] - mx) * 2  # 소요 시간 계산
+    
+    if inven >= 0 :  # 현재 인벤토리가 0 이상일 경우
+        if mn == -1 :  # 시간 최소값이 -1일 경우
+            mn = time  # 새로운 최솟값으로 갱신
+        elif mn > time :  # 시간 최소값이 현재 소요된 시간보다 많을 경우
+            mn = time  # 최솟값 갱신
+        else :  # 현재 소요된 최소값이 더 작을 경우
+           break 
+    mx -= 1  # 블록 높이 최댓값 -1
+
+# 최소 소요시간 값과 그 다음 소요시간을 비교해서 반복문을 탈출하므로
+# 계산 전의 블록 높이를 계산해야 하므로 블록 높이의 +1 계산
+print(mn, mx + 1)
