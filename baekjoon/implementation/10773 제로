@@ -1,0 +1,25 @@
+
+# 문제 : https://www.acmicpc.net/problem/10773
+
+# keyPoint 
+# 1. 입력받은 정수가 0인자 확인 한 후 pop or append 하는 간단한 deque 문제
+
+# code
+from sys import stdin
+from collections import deque
+
+k = int(stdin.readline())  # k 입력
+queue = deque()  # 양방향 연결 리스트 deque 선언
+
+for _ in range(k) :
+    n = int(stdin.readline())  # 정수 입력
+    
+    if n == 0 :  # 정수 0일 경우
+        queue.pop()  # 오른쪽 맨끝 값 제거
+    else :  # 0이 아닐 경우
+        queue.append(n)  # 오른쪽 맨끝에 값 추가
+    
+if queue :  # 큐의 길이가 0 이상인 경우
+    print(sum(queue))
+else :
+    print(0)
