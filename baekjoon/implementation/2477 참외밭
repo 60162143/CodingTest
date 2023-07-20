@@ -1,0 +1,41 @@
+
+# 문제 : https://www.acmicpc.net/problem/2477
+
+# keyPoint
+# 1. 입력받은 변의 길이 중 가장 긴변의 길이를 구함 ( 가로라 칭함 )
+# 2. 가장 긴 변을 기준으로 양 옆에 있는 변들 중 한개는 가장 긴 변 ( 세로라 칭함 )을 구함
+# 3. 가장 큰 가로와 세로의 길이에서 구멍난 사각형을 빼주면 면적을 계산할 수 있음
+# 4. 양 옆에 있는 변중 짧은 변은 한 번 꺾이기 때문에 구멍난 사각형의 가로와 세로길이 구할 수 있음
+
+# code
+from sys import stdin
+
+k = int(stdin.readline())  # 면적 당 참외 수 입력
+line = []  # 방향과 변의 길이를 입력 받을 배열
+max_width = 0  # 가장 긴 가로 길이
+max_height = 0  # 가장 긴 세로 길이
+min_width = 0  # 구멍난 사각형 가로 길이
+min_height = 0  # 구멍난 사각형 세로 길이
+
+# 6개의 변을 입력
+for i in range(6) :
+    a, b = map(int, stdin.readline().split())
+    line.append(b)  # 이 문제에서 방향은 딱히 필요 없으므로 길이만 입력
+
+line += line  # 인덱스 Out of Range 방지를 위해 리스트를 한번더 더해줌 ( 인덱스 계산의 편의를 위해 )
+
+max_width = max(line)  # 가장 긴 변 길이
+max_width_idx = line.index(max_width)  # 가장 긴 변의 인덱스
+
+# 가장 긴변의 양 옆 인덱스의 변의 길이 계산
+# 짧은 쪽의 변에서 한 번 꺾이기 때문에 구멍난 사각형의 가로와 세로 길이 계산 가능
+if line[max_width_idx + 1] < line[max_width_idx - 1] :
+    max_height = line[max_width_idx - 1]  # 가장 긴 세로 길이
+    min_width = line[max_width_idx + 2]  # 구멍난 사각형 가로 길이
+    min_height = line[max_width_idx - 1] - line[max_width_idx + 1]  # 구멍난 사각형 세로 길이
+else : 
+    max_height = line[max_width_idx + 1]  # 가장 긴 세로 길이
+    min_width = line[max_width_idx - 2]  # 구멍난 사각형 가로 길이
+    min_height = line[max_width_idx + 1] - line[max_width_idx - 1]  # 구멍난 사각형 세로 길이
+
+print(k * (max_width * max_height - min_width * min_height))
