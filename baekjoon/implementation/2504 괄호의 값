@@ -1,0 +1,49 @@
+
+# 문제 : https://www.acmicpc.net/problem/2504
+
+# keyPoint
+# 1. 입력 받은 데이터를 스택에 하나씩 쌓으면서 쌍이 맞으면 pop
+# 2. 스택의 쌍이 맞을 경우 입력받은 데이터의 이전 값과도 쌍이 맞으면 결과값에 더하기 ( 괄호가 닫힌 부분이 제일 먼저 계산해야 하는 부분이기 떄문...? )
+# 3. if문의 조건으로 리스트가 비었는지 확인 가능
+# 4. 구현 어렵다...
+
+# code
+from sys import stdin
+
+bracket = list(stdin.readline().rstrip())  # 괄호 입력
+
+stack = []  # 스택 형식으로 쌓을 리스트
+total = 0  # 결과 값
+tmp = 1  # 결과 값을 계산하기 전 임시 변수, 괄호가 닫히기 전까지는 곱셈연산이므로 이를 위해 필요
+
+for i in range(len(bracket)) :
+    if bracket[i] == '(' :  # 열린 괄호일 경우
+        stack.append(bracket[i])  # 스택에 데이터 추가
+        tmp *= 2  # 괄호가 닫히기 전까지는 곱셈 연산 이므로
+    elif bracket[i] == '[' :  # 열린 대괄호일 경우
+        stack.append(bracket[i])  # 스택에 데이터 추가
+        tmp *= 3  # 괄호가 닫히기 전까지는 곱셈 연산 이므로
+    elif bracket[i] == ')' :  # 닫힌 괄호일 경우
+        # 스택이 비었거나 스택의 최상위 값이 열린 괄호, 쌍이 아닐 경우
+        if not stack or stack[-1] != '(' :
+            total = 0  # 결과값 0으로 초기화
+            break
+        if bracket[i - 1] == '(' :  # 입력받은 데이터의 인덱스 -1 값이 열린 괄호 일 경우 계산이 되어야 하는 부분
+            total += tmp  # 결과값에 임시변수 값을 더해줌
+        stack.pop()  # 스택 최상위 값 제거
+        tmp //= 2  # 괄호가 닫혔기 때문에 임시변수를 2로 나눠줌
+    else :
+        # 스택이 비었거나 스택의 최상위 값이 열린 대괄호, 쌍이 아닐 경우
+        if not stack or stack[-1] != '[' :
+            total = 0  # 결과값 0으로 초기화
+            break
+        if bracket[i - 1] == '[' : # 입력받은 데이터의 인덱스 -1 값이 열린 대괄호 일 경우 계산이 되어야 하는 부분
+            total += tmp  # 결과값에 임시변수 값을 더해줌
+        stack.pop()  # 스택 최상위 값 제거
+        tmp //= 3  # 대괄호가 닫혔기 때문에 임시변수를 3로 나눠줌
+
+# 스택이 비어있지 않을 경우 쌍이 안맞는 괄호가 있기 때문에 0 출력
+if stack :  
+    print(0)
+else :
+    print(total)
