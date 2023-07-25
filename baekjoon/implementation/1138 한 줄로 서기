@@ -1,0 +1,20 @@
+
+# 문제 : https://www.acmicpc.net/problem/1138
+
+# keyPoint
+# 1. 다른 풀이법은 앞에서부터 찾아나가는 방식으로 좀 복잡하게 구현했지만
+# 뒤에서부터 차례대로 빼내어 새로운 리스트로 insert하면 쉽게 풀 수 있음
+
+# code
+from sys import stdin
+
+n = int(stdin.readline())  # n 입력
+
+arr = list(map(int, stdin.readline().split()))  # 리스트 입력
+result = []  # 결과 리스트
+
+# 리스트의 역순으로 빼내면서 결과값에 하나씩 담기
+for i in range(n, 0, -1) :
+    result.insert(arr.pop(), i)  # 마지막 값 추출 후 값을 인덱스로 새로운 리스트에 insert
+    
+print(" ".join(list(map(str, result))))
