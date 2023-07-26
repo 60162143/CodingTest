@@ -1,0 +1,30 @@
+
+# 문제 : https://www.acmicpc.net/problem/13335
+
+# keyPoint
+# 1. Queue를 이용해 하나씩 빼면서 확인
+# 2. 초기에 다리 길이 만큼 길이의 배열을 0으로 초기화 함 ( 마지막 차는 무조건 다리길이만큼의 시간이 소요되므로 )
+# 3. 다리길이 - 1 만큼의 길이로 합계를 구해서 다리 최대 중량보다 작으면 그 값을 넣고 크면 0을 넣음 ( 0일 경우는 아무 일도 하지 않고 시간만 증가되는 경우 )
+# ( 다리길이 -1인 이유는 차가 나가면 다음차가 바로 들어올 수 있기 때문, 다리 최대 중량보다 작으면 차가 들어올 수 있고
+# 최대 중량보다 크면 차가 빠져나가서 무게가 가벼워 질때까지 기다려야 함 )
+
+# code
+from sys import stdin
+from collections import deque
+
+n, w, l = map(int, stdin.readline().split())  # n, w, l 입력
+truck = deque(list(map(int, stdin.readline().split())))  # 트럭 무게 입력
+result = [0 for _ in range(w)]  # 초기 다리 길이 만큼 0으로 초기화
+
+index = 0  # 시간 증가량
+
+# 트럭이 모두 출발할때까지 반복
+while truck :
+    if sum(result[index + 1: ]) + truck[0] <= l :  # 다리길이 -1 만큼의 배열의 합계와 다음 차량의 무게의 합이 최대 중량보다 작을 경우
+        result.append(truck.popleft())  # 차량 출발
+    else :  # 최대중량보다 클 경우
+        result.append(0)  # 기다려야 함으로 0 추가
+    index += 1    # 시간 증가
+    
+print(len(result))  
+    
