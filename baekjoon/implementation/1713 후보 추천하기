@@ -1,0 +1,42 @@
+
+# 문제 : https://www.acmicpc.net/problem/1713
+
+# keyPoint
+# 1. 큐에 값을 넣으면서 사진틀이 꽉차고 새로운 값이 들어오면 추천수가 낮은 값을 제거
+# 2. 추천수는 따로 리스트로 관리
+
+# code
+from sys import stdin
+from collections import deque
+
+n = int(stdin.readline())  # 사진틀 수 입력
+student = int(stdin.readline())  # 학생 수 입력
+recommend = list(map(int, stdin.readline().rstrip().split()))  # 추천받은 학생 번호
+
+queue = deque()  # 사진틀을 queue로 선언
+cnt = [0 for _ in range(101)]  # 추천수를 관리할 count 배열
+
+for i in range(student) :
+    if recommend[i] in queue :  # 추천받은 학생 번호가 이미 사진틀에 걸려있을 경우
+        cnt[recommend[i]] += 1  # 추천수 증가
+    elif len(queue) < n :  # 사진틀에 아직 사진이 꽉 차지 않은 경우
+        queue.append(recommend[i])  # 사진틀에 사진 추가
+        cnt[recommend[i]] += 1  # 추천수 증가
+    else :  # 사진틀의 사진이 꽉찬 경우
+        mn = 10000  # 추천수 최솟값, 추천수가 1000이하 이므로 10000으로 초기화
+        index = 0  # 추천수가 가장 작은 사진틀의 index
+
+        # 사진틀의 끝에서 처음으로 순회
+        # 가장 앞에 있는 최솟값의 인덱스를 찾기 위해
+        for j in range(len(queue) - 1, -1, -1) :
+            if mn >= cnt[queue[j]] :  # 추천수의 최소값이 현재 추천수보다 크거나 같은 경우
+                mn = cnt[queue[j]]  # 추천수 최소값 갱신
+                index = j  # 사진틀의 인덱스
+
+        cnt[queue[index]] = 0  추천수 초기화
+        queue.remove(queue[index])  사진틀에서 index의 사진 제거
+            
+        queue.append(recommend[i])  # 사진틀에 새로운 사진 추가
+        cnt[recommend[i]] += 1  # 추천수 증가
+                
+print(" ".join(list(map(str, sorted(queue)))))  # 사진틀의 사진을 정렬해서 출
