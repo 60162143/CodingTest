@@ -1,0 +1,69 @@
+
+# 문제 : https://www.acmicpc.net/problem/2606
+
+# keyPoint
+# 1. DFS는 stack, 재귀,  BFS는 Queue를 활용하여 문제 풀이
+# 2. 경로탐색, 네트워크, 조합 유형은 위 두가지를 활용하여 문제 풀이 하자
+
+# code 
+
+### DFS ###
+from sys import stdin
+
+# DFS 재귀 함수
+def dfs(n) :
+    visited[n] = 1  # 현재 노드 방문 완료
+
+    # 현재 노드와 이어진 노드 방문
+    for nx in graph[n] :
+        if visited[nx] == 0 :  # 이어진 노드가 방문 되어 있지 않을 경우
+            dfs(nx)  # 이어진 노드로 재귀
+
+c = int(stdin.readline())  # 노드 수
+line = int(stdin.readline())  # 연결선 수
+
+graph = [[] for _ in range(c + 1)]  # 그래프
+visited = [0 for _ in range(c + 1)]  # 방문 정보
+
+# 연결선 입력
+for i in range(line) :
+    n, m = map(int, stdin.readline().split())
+    # 양방향으로 그래프에 넣어줌
+    graph[n].append(m)
+    graph[m].append(n)
+    
+dfs(1)  # 1번부터 시작이므로 1번부터 재귀
+
+print(sum(visited) - 1)
+### DFS ###
+
+## BFS ###
+# from sys import stdin
+# from collections import deque
+
+# c = int(stdin.readline())
+# line = int(stdin.readline())
+
+# graph = [[] for _ in range(c + 1)]
+# visited = [0 for _ in range(c + 1)]
+
+# for i in range(line) :
+#     n, m = map(int, stdin.readline().split())
+#     graph[n].append(m)
+#     graph[m].append(n)
+
+# queue = deque([1])  # queue에 1부터 시작이므로 1 넣음
+# visited[1] = 1  # 1번 노드 방문 완료
+
+# 큐가 빌때까지 반복
+# while queue :
+#     x = queue.popleft()  # 큐의 맨 앞에 있는 값 pop
+
+      # 맨 앞의 있는 값과 연결되어 있는 노드 방문
+#     for i in graph[x] :
+#         if visited[i] == 0 :  # 방문되어 있지 않을 경우
+#             queue.append(i)  # 큐에 방문되어 있지 않았던 노드 삽입
+#             visited[i] = 1  # 노드 방문 처
+            
+# print(sum(visited) - 1)
+### BFS ###
