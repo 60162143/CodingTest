@@ -1,0 +1,91 @@
+
+# 문제 : https://www.acmicpc.net/problem/2667
+
+# keyPoint
+
+# code
+
+#################### DFS ####################
+from sys import stdin
+
+# DFS 탐색 함수
+def dfs(x, y) :
+    if x < 0 or y < 0 or x >= n or y >= n :  # 좌표의 범위가 벗어난 경우 0 return
+        return 0
+    if graph[x][y] == 0 :  # 현재 좌표에 집이 없을 경우 0 return
+        return 0
+
+    count = 0  # 모여있는 집의 수
+    
+    graph[x][y] = 0  # 현재 좌표의 집 방문 처리
+
+    # 상, 하, 좌, 우 4방향 DFS 탐색
+    for i in range(4) :
+        # DFS 탐색의 결과를 더함
+        count += dfs(x + dx[i], y + dy[i])
+    
+    return count + 1  # 탐색을 통해 집이 있을 경우 count 증가
+
+n = int(stdin.readline())
+graph = [list(map(int, stdin.readline().rstrip())) for _ in range(n)]  # 집 좌표 입력
+result = []
+
+# 방향 벡터
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+
+# 좌표를 오른쪽 아래 방향으로 완전 탐색
+for i in range(n) :
+    for j in range(n) :
+        if graph[i][j] == 1 :
+            result.append(dfs(i, j))
+
+print(len(result))
+for i in sorted(result) :
+    print(i)
+#################### DFS ####################
+
+#################### BFS ####################
+# from sys import stdin
+# from collections import deque
+
+# BFS 탐색 함수
+# def bfs(i, j) :
+#     queue = deque()
+#     queue.append((i, j))  # 현재 좌표를 튜플 형태로 저장
+#     graph[i][j] = 0  # 현재 좌표 방문 처리
+    
+#     count = 1  # 현재 좌표의 집 개수를 포함한 1로 초기화
+
+      # queue가 빌때까지 반복
+#     while queue :
+#         x, y = queue.popleft()  # 맨 앞에 있는 좌표 pop
+
+          # 상, 하, 좌, 우 방향 확인
+#         for k in range(4) :
+#             nx = x + dx[k]
+#             ny = y + dy[k]
+#             if nx < 0 or ny < 0 or nx >= n or ny >= n :  # 좌표가 범위를 벗어난 경우 continue
+#                 continue
+#             if graph[nx][ny] == 1 :  # 인접 좌표의 집이 있을 경우
+#                 queue.append((nx, ny))  # queue에 삽입
+#                 graph[nx][ny] = 0  # 인접 좌표 방문 처리
+#                 count += 1  # 집 개수 증
+        
+#     return count
+
+# n = int(stdin.readline())
+# graph = [list(map(int, stdin.readline().rstrip())) for _ in range(n)]
+# result = []
+# dx = [-1, 0, 1, 0]
+# dy = [0, 1, 0, -1]
+
+# for i in range(n) :
+#     for j in range(n) :
+#         if graph[i][j] == 1 :
+#             result.append(bfs(i, j))
+
+# print(len(result))
+# for i in sorted(result) :
+#     print(i)
+#################### BFS ####################
