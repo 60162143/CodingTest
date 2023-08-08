@@ -1,0 +1,51 @@
+
+# 문제 : https://www.acmicpc.net/problem/1260
+
+# keyPoint
+# 1. BFS, DFS 기본적인 문제
+
+# code
+from sys import stdin
+from collections import deque
+
+# DFS 탐색
+def dfs(x) : 
+    vDFS[x] = 1  # 현재 노드 방문 처리
+    print(x, end=" ")  # 현재 노드 출력
+
+    # 연결된 노드 확인, 연결된 노드를 정렬해서 작은 노드 부터 탐색
+    for dx in sorted(graph[x]) :
+        if vDFS[dx] == 0 :  # 방문하지 않은 노드라면 DFS 탐색
+            dfs(dx)
+
+# BFS 탐색
+def bfs(x) :
+    queue = deque([v])  # BFS 탐색을 위한 queue
+    vBFS[v] = 1  현재 노드 방문 처리
+
+    # queue가 빌때까지 탐색
+    while queue :
+        x = queue.popleft()  # queue의 맨 앞의 값 pop
+        
+        print(x, end=" ")  # 방문한 노드 출력
+
+        # 연결된 노드 확인, 연결된 노드를 정렬해서 작은 노드 부터 탐색
+        for dx in sorted(graph[x]) :
+            if vBFS[dx] == 0 :  # 방문하지 않은 노드라면
+                queue.append(dx)  # queue에 삽입
+                vBFS[dx] = 1  # 방문 처리
+                
+n, m, v = map(int, stdin.readline().split())
+
+graph = [[] for _ in range(n + 1)]
+vDFS = [0 for _ in range(n + 1)]  # DFS 방문 여부
+vBFS = [0 for _ in range(n + 1)]  # BFS 방문 여부
+
+for i in range(m) :
+    x, y = map(int, stdin.readline().split())
+    graph[x].append(y)
+    graph[y].append(x)
+    
+dfs(v)
+print()
+bfs(v)
