@@ -1,0 +1,115 @@
+
+# 문제 : https://www.acmicpc.net/problem/2583
+
+# keyPoint
+
+# code
+#################### DFS ####################
+from sys import stdin
+import sys
+
+sys.setrecursionlimit(10**6)  # 재귀 깊이 늘림
+
+# DFS 탐색
+def dfs(x, y) :
+    visited[x][y] = 1  # 현재 좌표 방문 처리
+    
+    count = 1  # 나머지 영역 크기
+
+    # 상, 하, 좌, 우 방향으로 탐색
+    for i in range(4) :
+        nx = x + dx[i]
+        ny = y + dy[i]
+
+        # 인접 좌표가 범위를 벗어난 경우 continue
+        if nx < 0 or ny < 0 or nx >= n or ny >= m :
+            continue
+
+        # 인접 좌표가 방문되지 않았을 경우
+        if visited[nx][ny] == 0 :
+            count += dfs(nx, ny)  # 인접좌표의 DFS 탐색
+
+    return count  # 나머지 영역의 크기 return
+    
+m, n, k = map(int, stdin.readline().split())  # m, n, k 입력
+
+# 방향 벡터
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+
+visited = [[0 for _ in range(m)] for _ in range(n)]  # 좌표의 방문 여부
+result = []  # 결과 리스트
+
+# 사각형의 자표로 방문처리
+for _ in range(k) :
+    a, b, c, d = map(int, stdin.readline().split())
+    for i in range(a, c) :
+        for j in range(b, d) :
+            visited[i][j] = 1  # 입력된 사각형 내의 좌표는 모두 방문 처리
+
+# 모든 좌표를 탐색하면서 방문이 되어있지 않으면 DFS 탐색
+for i in range(n) :
+    for j in range(m) :
+        if visited[i][j] == 0 :
+            result.append(dfs(i, j))  # DFS 탐색후 나머지 영역의 크기 삽입
+            
+print(len(result))
+
+for i in sorted(result) :
+    print(i, end=" ")
+#################### DFS ####################
+
+#################### BFS ####################    
+# from sys import stdin
+# from collections import deque
+
+# BFS 탐색
+# def bfs(x, y) :
+#     queue = deque()  # BFS 탐색을 위한 queue
+#     queue.append((x, y))  # queue에 현재 좌표 삽입
+#     visited[x][y] = 1  # 현재 좌표 방문 처리
+    
+#     count = 1
+    
+#     while queue :
+#         tx, ty = queue.popleft()  # queue의 맨 앞에 있는 값 pop
+
+          # 상, 하, 좌, 우 4방향 탐색
+#         for i in range(4) :
+#             nx = tx + dx[i]
+#             ny = ty + dy[i]
+
+              # 좌표가 범위를 벗어난 경우
+#             if nx < 0 or ny < 0 or nx >= n or ny >= m :
+#                 continue
+
+              # 인접 좌표가 방문되지 않았을 경우
+#             if visited[nx][ny] == 0 :
+#                 count += 1  # 나머지 영역 크기 증가  
+#                 queue.append((nx, ny))  # queue에 인접 좌표 삽입
+#                 visited[nx][ny] = 1  # 인접 좌표 방문 처리
+
+#     return count
+    
+# m, n, k = map(int, stdin.readline().split())
+
+# dx = [-1, 0, 1, 0]
+# dy = [0, 1, 0, -1]
+# visited = [[0 for _ in range(m)] for _ in range(n)]
+# result = []
+# for _ in range(k) :
+#     a, b, c, d = map(int, stdin.readline().split())
+#     for i in range(a, c) :
+#         for j in range(b, d) :
+#             visited[i][j] = 1
+            
+# for i in range(n) :
+#     for j in range(m) :
+#         if visited[i][j] == 0 :
+#             result.append(bfs(i, j))
+            
+# print(len(result))
+
+# for i in sorted(result) :
+#     print(i, end=" ")
+#################### BFS ####################
