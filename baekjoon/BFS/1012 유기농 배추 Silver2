@@ -1,0 +1,113 @@
+
+# 문제 : https://www.acmicpc.net/problem/1012
+
+# keyPoint
+
+# code
+#################### BFS ####################
+from sys import stdin
+from collections import deque
+
+# BFS 탐색
+def bfs(x, y) :
+    queue = deque()  # BFS 탐색을 위한 queue
+    queue.append((x, y))  # queue에 좌표 삽입
+    visited[x][y] = 0  # 현재 좌표 방문처리
+
+    # queue가 빌 때까지 반복
+    while queue :
+        tx, ty = queue.popleft()  # queue의 맨 앞의 값 pop
+
+        # 상, 하, 좌, 우 방향 확인
+        for i in range(4) :
+            # 인접한 좌표
+            nx = tx + dx[i]
+            ny = ty + dy[i]
+
+            # 인접한 좌표가 범위를 넘는 경우
+            if nx < 0 or ny < 0 or nx >= m or ny >= n :
+                continue
+
+            # 배추가 있는 경우
+            if visited[nx][ny] == 1 :
+                queue.append((nx, ny))  # queue에 좌표 삽입
+                visited[nx][ny] = 0    # 좌표 방문 처리
+                
+    return 1  # 탐색 완료 시 1 반환
+            
+t = int(stdin.readline())  # 테스트케이스 입력
+
+for _ in range(t) :
+    m, n, k = map(int, stdin.readline().split())  # m, n, k 입력
+
+    visited = [[0 for _ in range(n)] for _ in range(m)]  # 방문 여부
+
+    # 방향 벡터
+    dx = [-1, 0, 1, 0]
+    dy = [0, 1, 0, -1]
+
+    count = 0  # 결과 값
+
+    # 배추 위치 입력
+    for _ in range(k) :
+        x, y = map(int, stdin.readline().split())
+        visited[x][y] = 1
+
+    # 모든 좌표 확인
+    for i in range(m) :
+        for j in range(n) :
+            if visited[i][j] == 1 :  # 배추가 있을 경우
+                count += bfs(i, j)  # DFS 탐색 후 count 증가
+                
+    print(count)
+#################### BFS ####################
+
+#################### DFS ####################
+# from sys import stdin
+# import sys
+
+# sys.setrecursionlimit(10**6)  # 재귀 깊이 증가
+
+# DFS 탐색
+# def dfs(x, y) :
+#     visited[x][y] = 0  # 현재 좌표 방문 처리
+
+      # 상, 하, 좌, 우 확인
+#     for i in range(4) :
+          # 인접 좌표
+#         nx = x + dx[i]
+#         ny = y + dy[i]
+
+          # 인접 좌표가 범위를 벗어난 경우
+#         if nx < 0 or ny < 0 or nx >= m or ny >= n :
+#             continue
+
+          # 인접한 좌표에 배추가 있을 경우
+#         if visited[nx][ny] == 1 :
+#             dfs(nx, ny)   # 인접 좌표로 DFS 탐색
+                
+#     return 1  # 탐색 완료 시 1 return
+            
+# t = int(stdin.readline())
+
+# for _ in range(t) :
+#     m, n, k = map(int, stdin.readline().split())
+
+#     visited = [[0 for _ in range(n)] for _ in range(m)]
+
+#     dx = [-1, 0, 1, 0]
+#     dy = [0, 1, 0, -1]
+
+#     count = 0
+    
+#     for _ in range(k) :
+#         x, y = map(int, stdin.readline().split())
+#         visited[x][y] = 1
+        
+#     for i in range(m) :
+#         for j in range(n) :
+#             if visited[i][j] == 1 :
+#                 count += dfs(i, j)
+                
+#     print(count)
+#################### DFS ####################
