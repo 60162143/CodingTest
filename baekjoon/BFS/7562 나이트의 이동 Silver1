@@ -1,0 +1,50 @@
+
+# 문제 : https://www.acmicpc.net/problem/7562
+
+# keyPoint
+# 1. 방향 벡터 설정하기
+
+# code
+from sys import stdin
+from collections import deque
+
+t = int(stdin.readline())  # 테스트 케이스 입력
+
+for _ in range(t) :
+    n = int(stdin.readline())  # 체스판 크기 입력
+    x, y = map(int, stdin.readline().split())  # 시작점 입력
+    nx, ny = map(int, stdin.readline().split())  # 끝점 입력
+    
+    visited = [[0 for _ in range(n)] for _ in range(n)]  # 방문 여부, 0으로 초기화
+
+    # 나이트의 8가지 방향 벡터
+    dx = [1, 1, 2, -2, -1, -1, -2, 2]
+    dy = [-2, 2, 1, 1, 2, -2, -1, -1]
+
+    queue = deque([(x, y)])  # BFS 탐색을 위한 queue
+    
+    while queue :
+        tx, ty = queue.popleft()  # 큐 값 pop
+
+        # 끝점일 경우 종료
+        if tx == nx and ty == ny :
+            break
+
+        # 8가지 방향 탐색
+        for i in range(8) :
+            # 인접한 좌표
+            mx = tx + dx[i]
+            my = ty + dy[i]
+
+            # 좌표 범위를 벗어난 경우
+            if mx < 0 or my < 0 or mx >= n or my >= n :
+                continue
+
+            # 방문 하지 않았을 경우
+            if visited[mx][my] == 0 :
+                visited[mx][my] = visited[tx][ty] + 1  # 이전 좌표에서 인접한 좌표의 값에 1을 더해줌
+                queue.append((mx, my))  # 큐에 인접한 좌표 삽
+    
+    print(visited[nx][ny])
+        
+        
