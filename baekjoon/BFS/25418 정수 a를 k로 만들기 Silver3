@@ -1,0 +1,33 @@
+
+# 문제 : https://www.acmicpc.net/problem/25418
+
+# keyPoint
+# 1. 최단 거리 문제의 경우 BFS로만 문제 풀이 가능
+# 2. 시작점에서 끝점이 아닌 끝점에서 시작점으로 탐색
+# 3. 우선적으로 나눗셈 후 뺄셈
+
+# code
+from sys import stdin
+from collections import deque
+
+a, k = map(int, stdin.readline().split())  # 시작점, 끝점 입력
+
+queue = deque([k])  # 끝점 queue에 삽입
+
+count = 0  # 연산 횟수
+
+while queue :
+    t = queue.popleft()  # queue의 맨 앞의 값 pop
+
+    if t == a :  # 시작점과 값이 같을 경우
+        break
+
+    # 2로 나누어 떨어지고 나눈 값이 시작점보다 크거나 같은 경우
+    if t % 2 == 0 and t // 2 >= a :
+        queue.append(t // 2)  # 나눈 값 삽입
+    else :  # 나눗셈이 안될 경우 뺄셈 진행
+        queue.append(t - 1)  # 뺀 값 삽입
+        
+    count += 1  # 연산 횟수 증가
+
+print(count)
