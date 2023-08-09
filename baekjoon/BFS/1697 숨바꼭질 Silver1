@@ -1,0 +1,34 @@
+
+# 문제 : https://www.acmicpc.net/problem/1697
+
+# keyPoint
+# 1. visited 배열을 모두 0으로 범위만큼 초기화
+# 2. queue에 들어온 점의 값을 인덱스로 visited 배열의 값이 0일 경우 전의 점에서 한번 움직였기 때문에 1을 더해줌
+# 3. BFS는 최소 거리를 보장
+# 4. for문에서 in에 값들을 리스트로 넣을 수 있음
+
+# code
+from sys import stdin
+from collections import deque
+
+MAX = 10 ** 5  # 문제의 범위가 100000 까지 이므로 설정
+n, k = map(int, stdin.readline().split())  # n, k 입력
+
+visited = [0 for _ in range(MAX + 1)]  # 방문 유무 배열 0으로 초기화
+
+queue = deque([n])  # BFS를 위한 queue
+
+while queue :
+    t = queue.popleft()  # queue의 값 pop
+    
+    if t == k :  # 목표한 점의 값을 찾았을 경우
+        break
+
+    # 3가지 방법을 모두 탐색
+    for i in (t - 1, t + 1, 2 * t) :
+        # 움직인 점이 범위 안에 있고 방문을 안했을 경우
+        if 0 <= i < MAX + 1 and visited[i] == 0 :
+            visited[i] = visited[t] + 1  # 이전 점의 값에서 1을 더해줌
+            queue.append(i)  # 현재 점을 queue에 삽입
+    
+print(visited[k])
