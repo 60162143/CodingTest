@@ -1,0 +1,40 @@
+
+# 문제 : https://www.acmicpc.net/problem/1920
+
+# keyPoint
+# 1. 해당 문제는 O(nlogn)으로 풀어야 하기 때문에 이분 탐색을 이용해서 문제 해결
+# 2. 앞과 뒤에 pivot을 두고 중앙값과 비교한뒤 pivot을 중앙값 전의 값 또는 중앙값 후의 값으로 변경
+# 3. set의 x in s 의 연산은 O(1) ( 리스트는 O(n)의 시간복잡도 )
+
+# code
+from sys import stdin
+
+# 입력
+n = int(stdin.readline())
+arrN = list(map(int, stdin.readline().split()))
+m = int(stdin.readline())
+arrM = list(map(int, stdin.readline().split()))
+
+arrN.sort()  # 리스트 정렬
+
+# 수가 안에 있는지 확인
+for i in arrM :
+    lt, rt = 0, n - 1  # pivot의 시작점과 끝점
+    isExist = False  # 값이 존재하는지 여부
+
+    # 이분 탐색 ( 앞과 뒤에서 동시에 확인 )
+    # 끝점이 시작점보다 작아지는 경우 사이에 수가 존재할 수 없기 때문에 종료
+    while lt <= rt :
+        mid = (lt + rt) // 2  # 중앙값의 인덱스
+        if arrN[mid] == i :  # 중앙값과 같은 경우 ( 이분 탐색으로 반복하므로 중앙값을 확인함으로 값이 있는지 확인 가능 )
+            isExist = True  # 존재 여부 갱신
+            print(1)  
+            break
+        elif arrN[mid] > i :  # 중앙값보다 작은 경우
+            rt = mid - 1  # 끝점을 중앙값 -1로 변경 ( 무조건 중앙값보다는 작기 때문 )
+        else :
+            lt = mid + 1  # 시작점을 중앙값 +1로 변경 ( 무조건 중앙값보다는 크기 때문 )
+
+    # 수가 없을 경우
+    if not isExist :
+        print(0)
