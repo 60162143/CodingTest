@@ -1,0 +1,54 @@
+
+# 문제 : https://www.acmicpc.net/problem/3273
+
+# keyPoint
+# 1. 전형적인 투포인터 문제 -> 양 끝에서 중앙으로 값을 비교하면서 진행
+# 2. 투포인터를 사용하기 위해서는 정렬 필요
+# 3. 집합 자료형으로도 문제 해결 가능
+
+# code
+#################### 투 포인터 ####################
+from sys import stdin
+
+# 입력
+n = int(stdin.readline())
+
+arr = list(map(int, stdin.readline().split()))
+x = int(stdin.readline())
+
+lt, rt = 0, len(arr) - 1  # 투 포인터 인덱스 ( 양 끝값 )
+
+arr.sort()  # 리스트 정렬 ( 투포인터 탐색을 위해 )
+
+count = 0  # 결과 값
+
+# 포인터가 만나기 전까지 반복
+while lt < rt :
+    if arr[lt] + arr[rt] == x :  # 현재 포인터의 값들의 합이 x와 같을 경우
+        count += 1  # 결과 값 증가
+        
+        # 양 포인터 인덱스 증감
+        lt += 1
+        rt -= 1
+    elif arr[lt] + arr[rt] < x :  # 현재 포인터의 값들의 합이 x보다 작은 경우
+        lt += 1  # 작은 쪽의 포인터를 증가
+    else :  # 현재 포인터의 값들의 합이 x보다 큰 경우
+        rt -= 1  # 큰 쪽의 포인터를 증가
+        
+print(count)
+
+#################### 집합 자료형 ####################
+# from sys import stdin
+
+# 입력
+# n = int(stdin.readline())
+
+# arr = list(map(int, stdin.readline().split()))
+# x = int(stdin.readline())
+
+# setA = set(arr)  # 기존 리스트를 집합 자료형으로 변환
+# setB = set(x - item for item in arr)  # 기존 리스트에서 x와의 차 값을 집합 자료형으로 변환
+
+# 두 집합의 교집합이 합이 x가 되는 쌍의 개수이고 쌍은 2개이므로 나누기 2
+# print(len(setA & setB) // 2)
+#################### 집합 자료형 ####################
