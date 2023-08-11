@@ -1,0 +1,28 @@
+
+# 문제 : https://www.acmicpc.net/problem/18870
+
+# keyPoint
+# 1. 정렬 후 리스트가 아닌 딕셔너리를 활용해서 문제 풀이 -> 딕셔너리의 평균 시간복잡도는 O(1)이기 때문
+
+# code
+from sys import stdin
+
+# 입력
+n = int(stdin.readline())
+
+arr = list(map(int, stdin.readline().split()))
+
+arrS = sorted(arr)  # 리스트 정렬
+dic = dict()  # 기존 리스트의 순서를 담을 딕셔너리
+
+idx = 0  # 기존 리스트의 순서 변수
+
+# 정렬한 리스트의 원소 반복
+for item in arrS :
+    if item not in dic :  # 원소를 하나씩 꺼내면서 딕셔너리에 값이 없을 경우
+        dic[item] = idx  # 딕셔너리에 리스트의 순서 담기
+        idx += 1  # 순서 증가
+
+# 기존 리스트의 원소 반복
+for item in arr :
+    print(dic[item], end=" ")  # 기존 리스트의 원소를 key로 하는 딕셔너리의 값( 리스트의 순서 )를 출
