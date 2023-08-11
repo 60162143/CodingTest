@@ -1,0 +1,56 @@
+
+# 문제 : https://www.acmicpc.net/problem/10816
+
+# keyPoint
+# 1. 이분탐색을 이용해 정렬되어 있는 리스트 탐색
+# 2. 중앙값을 이용해 값이 있는지 우선 확인 후
+# 값이 있을 경우 중앙값을 기준으로 왼쪽과 오른쪽으로 각각 탐색하면서 중복된 수가 있는지 확인
+# 3. 딕셔너리를 이용해서 이미 확인한 수 인 경우 이전에 탐색했던 결과를 return
+
+# code
+from sys import stdin
+
+# 입력
+n = int(stdin.readline())
+arrN = list(map(int, stdin.readline().split()))
+M = int(stdin.readline())
+arrM = list(map(int, stdin.readline().split()))
+
+arrN.sort()  # 리스트 정렬
+
+dic = dict()  # 탐색한 값들을 넣을 딕셔너리 ( 똑같은 수 재탐색 방지 )
+
+for item in arrM :
+    lt, rt = 0, len(arrN) - 1  # lt와 rt는 각각 왼쪽과 오른쪽에서 중앙으로 탐색하는 이분탐색의 pivot
+    count = 0  # 수의 count
+    
+    if item not in dic :  # 딕셔너리에 값이 있을 경우 이미 탐색했기 때문에 시간 효율이 증가
+        while lt <= rt :  # 오른쪽에서 오는 인덱스가 왼쪽에서 오는 인덱스보다 커야 함
+            
+            mid = (lt + rt) // 2  # 중앙값
+
+            if arrN[mid] == item :  # 중앙값과 수가 같을 경우
+                count += 1  # count 증가
+                nlt, nrt = mid - 1, mid + 1  # nlt, nrt는 중앙값을 기준으로 각각 왼쪽과 오른쪽을 확인하면서 같은 수가 있는지 확인하는 인덱스
+
+                # 중앙값을 기준으로 왼쪽에 중복된 값이 있는지 확인
+                while nlt >= 0 and arrN[nlt] == item :  
+                    count += 1  # count 증가
+                    nlt -= 1  # 왼쪽 인덱스 감소
+
+                # 중앙값을 기준으로 오른쪽에 중복된 값이 있는지 확인
+                while nrt < n and arrN[nrt] == item :
+                    count += 1
+                    nrt += 1  # 오른쪽 인덱스 증가
+                
+                break
+                
+            elif arrN[mid] > item :  # 중앙값이 수보다 클 경우
+                rt = mid - 1  # 오른쪽에서 오는 인덱스를 중앙값의 -1로 변경
+            else :
+                lt = mid + 1  # 왼쪽에서 오는 인덱스를 중앙값의 +1로 변경
+        
+        dic[item] = count  # 딕셔너리에 값 넣기
+        print(count, end=" ")
+    else :
+        print(dic[item], end=" ")
