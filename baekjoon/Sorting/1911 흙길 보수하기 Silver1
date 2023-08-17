@@ -1,0 +1,48 @@
+
+# 문제 : https://www.acmicpc.net/problem/1911
+
+# keyPoint
+# 1. 웅덩이는 겹치지 않으므로 오름차순 정렬후 순회
+# 2. 현재 널빤지 위치를 기준으로 앞에서부터 채워나감
+
+# code
+from sys import stdin
+
+# 입력
+n, l = map(int, stdin.readline().split())
+
+bowl = []  # 웅덩이 위치
+count = 0  # 널빤지 개수
+
+# 웅덩이 입력
+for _ in range(n) :
+    x, y = map(int, stdin.readline().rstrip().split())
+    bowl.append((x, y))
+
+bowl.sort()  # 웅덩이 오름차순 정렬
+
+cur = bowl[0][0]  # 널빤지의 마지막 위치 ( 초기 처음 웅덩이 위치로 초기화 )
+
+# 웅덩이를 순회, start와 end는 웅덩이의 시작과 끝 위치
+for start, end in bowl :
+    # 널빤지의 마지막 위치가 현재 웅덩이의 끝 위치보다 뒤쪽인 경우 다음 웅덩이를 덮을 수 있는지 확인하기 위해 continue
+    if cur > end :
+        continue
+
+    # 널빤지의 마지막 위치가 현재 웅덩이의 시작점보다 뒤쪽인 경우 앞 웅덩이의 널빤지가 현재 웅덩이에 영향을 미치므로
+    # 현재 웅덩이의 시작점을 널빤지의 마지막 위치로 갱신
+    if cur > start :
+        start = cur
+    
+    cnt = (end - start) // l  # 현재 웅덩이에 놓을 수 있는 널빤지의 개수
+
+    # 널빤지가 현재 웅덩이에 딱 맞지 않는 경우 덮이지 않은 나머지 부분도 덮어줘야 하기 때문에
+    # 널빤지 1개 추가
+    if (end - start) % l != 0 :
+        cnt += 1
+
+    count += cnt  # 총 널빤지의 개수 갱신
+
+    cur = start + cnt * l  # 널빤지의 마지막 위치를 현재 웅덩이의 시작점에서 널빤지를 놓은 마지막 위치로 갱
+        
+print(count)
