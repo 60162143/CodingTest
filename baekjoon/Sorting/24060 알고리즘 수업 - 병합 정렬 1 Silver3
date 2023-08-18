@@ -1,0 +1,67 @@
+
+# 문제 : https://www.acmicpc.net/problem/24060
+
+# keyPoint
+# 1. 기본적인 병합 정렬 문제
+# 2. 병합정렬한 리스트를 새로 만들어주는 것이 아닌 기존 리스트의 값을 변경하면서 진행
+
+# code
+from sys import stdin
+
+# 리스트를 병합하는 부분
+def merge_sort(array, start, end) :
+    if start < end :  # 쪼갤 리스트가 2개 이상일 경우 진행
+        mid = (start + end) // 2  # 리스트의 중간 값
+        merge_sort(array, start, mid)  # 시작점부터 중간값까지의 리스트를 다시 쪼개기
+        merge_sort(array, mid + 1, end)  # 중간값부터 끝값까지의 리스트를 다시 쪼개기
+        merge(array, start, mid + 1, end)  # 쪼개진 리스트를 합치기
+
+# 쪼갠 리스트를 합치는 부분
+def merge(array, left, right, end) :
+    merged = []  # 쪼개진 리스트를 합칠 리스트
+    lt, rt = left, right  # 왼쪽 리스트와 오른쪽 리스트의 각 시작점
+
+    # 왼쪽 리스트 or 오른쪽 리스트가 빌때까지 반복
+    while lt < right and rt <= end :
+        if array[lt] <= arr[rt] :  # 오른쪽 값이 크거나 같은 경우
+            merged.append(array[lt])  # 왼쪽 리스트의 맨 앞의 값을 merged 리스트에 추가
+            lt += 1  # 왼쪽 리스트의 시작점 +1
+        else :  # 왼쪽 값이 크거나 같은 경우
+            merged.append(array[rt])  # 오른쪽 리스트의 맨 앞의 값을 merged 리스트에 추가
+            rt += 1  # 오른쪽 리스트의 시작점 +1
+
+    # 왼쪽 리스트의 값이 남은 경우 남은 값들을 merged 리스트에 추가
+    while lt < right :
+        merged.append(array[lt])
+        lt += 1
+
+    # 오른쪽 리스트의 값이 남은 경우 남은 값들을 merged 리스트에 추가
+    while rt <= end :
+        merged.append(array[rt])
+        rt += 1
+        
+    idx = left  # 변경을 시작할 리스트의 시작점, 왼쪽 리스트의 시작점부터 오른쪽 리스트의 끝점까지 변경됨
+
+    # 병합정렬된 리스트 순회
+    for item in merged :
+        global count, result  # 변경횟수와 결과값 전역 변수
+        array[idx] = item  # 병합정렬된 리스트의 값으로 변경
+
+        count += 1  # 변경 횟수 증가
+
+        # 변경 횟수와 k가 같은 경우 결과값 갱신
+        if count == k :
+            result = item
+
+        idx += 1  # 변경할 인덱스 +1
+
+# 입력
+n, k = map(int, stdin.readline().split())
+
+arr = list(map(int, stdin.readline().split()))
+count = 0  # 변경 횟수
+result = -1  # 결과 값
+
+merge_sort(arr, 0, len(arr) - 1)  # 병합 정렬 진
+
+print(result)
