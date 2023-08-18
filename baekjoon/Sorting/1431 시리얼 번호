@@ -1,0 +1,63 @@
+
+# 문제 : https://www.acmicpc.net/problem/1431
+
+# keyPoint
+# 1. 파이썬 내장 함수인 sort를 이용한 정렬 문제
+# 2. 각 정렬 조건을 sort의 key로 넣어서 정렬
+
+# code
+from sys import stdin
+
+n = int(stdin.readline())  # n 입력
+serial = []  # 시리얼 번호를 담을 배열
+
+for i in range(n) :
+    num = stdin.readline().rstrip()  # 시리얼 번호 입력
+    
+    cnt = 0  # 숫자들의 총합
+
+    # 시리얼 번호의 숫자를 찾아서 총합에 더해줌
+    for item in num :
+        if item.isdigit() :
+            cnt += int(item)
+    
+    serial.append((num, cnt))  # 시리얼번호 값과 숫자의 총합을 배열에 튜플 형태로 담기
+
+# 배열을 각 정렬조건으로 정렬 -> arr.sort(key = lambda x : (정렬기준1, 정렬기준2, 정렬기준3, …))
+# 첫번째 조건은 길이, 두번째 조건은 숫자들의 총합, 세번째 조건은 사전순으로 정렬
+serial.sort(key=lambda x : (len(x[0]), x[1], x[0]))
+
+# 출
+for item in serial :
+    print(item[0])
+
+# Previous Code
+# from sys import stdin
+# from collections import deque
+
+# n = int(stdin.readline())
+
+# serial = deque(sorted([stdin.readline().rstrip() for _ in range(n)], key=lambda x : len(x)))
+# result = []
+
+# while serial :
+#     s = []
+#     s.append(serial.popleft())
+    
+#     while serial and len(s[0]) == len(serial[0]) :
+#         s.append(serial.popleft())
+        
+#     t = []
+    
+#     for item in s :
+#         cnt = 0
+#         for i in item :
+#             if i.isdigit() :
+#                 cnt += int(i)
+#         t.append((item, cnt))
+    
+#     for item in sorted(t, key=lambda x : (x[1], x[0])) :
+#         result.append(item[0])
+        
+# for item in result :
+#     print(item)
