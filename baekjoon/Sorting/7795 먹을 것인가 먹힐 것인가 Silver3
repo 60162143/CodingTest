@@ -1,0 +1,27 @@
+
+# 문제 : https://www.acmicpc.net/problem/7795
+
+# keyPoint
+# 1. 이분 탐색을 이용하는 문제
+# 2. bisect 라이브러리는 원소들이 정렬된 리스트에서 특정 원소를 찾을 때 효과적
+
+# code
+from sys import stdin
+from bisect import bisect_right
+
+t = int(stdin.readline())  # 입력
+
+for _ in range(t) :
+    # 입력
+    n, m = map(int, stdin.readline().split())
+    
+    arrA = sorted(list(map(int, stdin.readline().split())))  # 이분 탐색을 위해 정렬 진행
+    arrB = list(map(int, stdin.readline().split()))
+    
+    result = 0   # 결과 값
+
+    # arrB의 item을 arrA에 들어갈 위치를 찾으면 그 위치부터 배열 끝까지가 쌍을 만들수 있는 경우의 수
+    for item in arrB :
+        result += len(arrA) - bisect_right(arrA, item)  # bisect_right 함수를 사용하여 배열에 원소가 들어갈 위치 탐색
+        
+    print(result)
