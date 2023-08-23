@@ -1,0 +1,20 @@
+
+# 문제 : https://www.acmicpc.net/problem/2910
+
+# keyPoint
+# 1. 빈도수를 구하는 문제로 Collections 모듈의 Counter 함수의 most_common 함수를 사용해서 최빈값으로 정렬된 값을 얻을 수 있음
+
+# code
+from sys import stdin
+from collections import Counter
+
+# 입력
+n, c = map(int, stdin.readline().split())
+
+arr = list(map(int, stdin.readline().split()))
+
+# 최빈값으로 정렬된 배열 반환
+# 빈도수 만큼 값 출력
+for item, count in Counter(arr).most_common() :
+    for i in range(count) :
+        print(item, end=" ")
