@@ -1,0 +1,30 @@
+
+# 문제 : https://www.acmicpc.net/problem/1141
+
+# keyPoint
+# 1. 입력받은 문자들을 정렬한 후 앞 뒤의 접두 여부 확인
+# 2. 반복문으로 인접한 두 문자를 비교
+# 3. 앞의 문자열이 더 긴 경우 또는 앞의 문자열이 뒤의 문자열에 포함되는 경우는 접두사인 경우이기 때문에
+# 위의 경우를 제외한 나머지 경우를 찾음
+
+# code
+from sys import stdin
+
+# 입력
+n = int(stdin.readline())
+
+word = [stdin.readline().rstrip() for _ in range(n)]
+
+word.sort()  # 입력 받은 문자열 정렬
+
+count = 1  # 문자열 1개는 무조건 포함되므로 1로 초기화
+
+# 인접한 문자열 비교를 위한 반복문
+for i in range(n - 1) :
+    if len(word[i]) > len(word[i + 1]) :  # 앞쪽 문자열의 길이가 뒤쪽 문자열의 길이보다 긴 경우 접두사가 될 수 없음
+        count += 1
+    # 앞쪽 문자열이 뒤쪽 문자열에 접두사가 아닌 경우
+    elif len(word[i]) <= len(word[i + 1]) and word[i] != word[i + 1][:len(word[i])] :
+        count += 1
+        
+print(count)
