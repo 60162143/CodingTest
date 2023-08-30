@@ -1,0 +1,45 @@
+
+# 문제 : https://www.acmicpc.net/problem/3758
+
+# keyPoint
+# 1. 문제 정렬 조건인 총점, 제출 횟수, 제출 시간을 가지는 리스트를 만들어 넣기
+# 2. 방문 여부 리스트로 동일한 팀의 동일한 문제가 입력되었는지 확인
+
+# code
+from sys import stdin
+
+t = int(stdin.readline())  # 입력
+
+for _ in range(t) :
+    # 팀의 개수, 문제 개수, 본인 팀 ID, 로그 엔트리 개수 입력
+    n, k, t, m = map(int, stdin.readline().split())
+    
+    # 총점, 제출 횟수, 제출 순번, index 번호
+    score = [[0, 0, 10001, i] for i in range(n + 1)]
+
+    # 동일한 팀의 동일한 문제가 들어왔는지 확인하는 방문 여부 리스트
+    visited = [[0 for _ in range(k + 1)] for _ in range(n + 1)]
+    
+    for i in range(m) :
+        # 팀 ID, 문제 번호, 점수 입력
+        x, y, z = map(int, stdin.readline().split())  
+
+        if visited[x][y] == 0 :  # 입력된 팀 ID의 문제의 점수가 처음 입력되었을 경우
+            score[x][0] += z  # 입력된 팀의 점수 증가
+            visited[x][y] = z  # 방문 여부 리스트에 점수 입력
+        else :  # 입력된 팀 ID의 문제의 점수가 두번 이상 입력되었을 경우
+            # 현재 입력 점수가 이전 입력 점수보다 큰 경우만 적용, 작은 경우 0으로 점수 변화 없게 만듦 
+            score[x][0] += max(0, z - visited[x][y])
+            visited[x][y] = max(visited[x][y], z)  # 방문 여부 리스트에 두 점수 중 큰 값 저장
+        score[x][1] += 1  # 입력된 팀의 제출 횟수 1회 증가
+        score[x][2] = i  # 입력된 팀의 제출 순번 저장, 제출 시간을 나타내기 위한 변수로 순번이 클 수록 제출 시간이 늦음
+
+    # 입력된 점수 리스트를 1. 최종 점수, 2. 제출 횟수, 3. 제출 시간으로 정렬
+    # 리스트의 맨 앞의 값은 dummy 값이므로 제거 후 정렬
+    result = sorted(score[1:], key=lambda x : (-x[0], x[1], x[2]))
+
+    # 본인 팀 ID를 찾아서 순위 출력
+    for i in range(n) :
+        if result[i][3] == t :
+            print(i + 1)
+            break
