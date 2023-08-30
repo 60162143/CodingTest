@@ -1,0 +1,46 @@
+
+# 문제 : https://www.acmicpc.net/problem/17503
+
+# keyPoint
+# 1. 선호도와 도수레벨을 기준으로 정렬
+# 2. heapq를 사용하여 도수레벨이 가장 낮으면서 선호도를 만족하는 값 도출
+# 3. 선호도가 가장 낮은 값부터 우선순위 큐에서 제거하고 도수 레벨이 낮은 값부터 우선순위 큐에 입력됨
+
+# code
+from sys import stdin
+from heapq import heappop, heappush
+
+# 기간, 선호도 합, 맥주 종류 입력
+n, m, k = map(int, stdin.readline().split())
+
+beer = []  # 맥주 정보
+result = []  # 선정된 맥주를 담을 우선순위큐
+
+# 선호도, 도수 레벨 입력
+for _ in range(k) :
+    x, y = map(int, stdin.readline().split())
+    beer.append((x, y))
+    
+beer.sort(key=lambda x:(x[1], x[0]))  # 도수 레벨과 선호도를 기준으로 정렬
+
+favor = 0  # 선정된 맥주들의 선호도 합
+gan = 0  # 최대 간 수치
+
+# 맥주 리스트를 순회
+for i in range(k) :
+    heappush(result, (beer[i][0], beer[i][1]))  # 우선순위큐에 맥주 정보 추가
+    favor += beer[i][0]  # 선호도 합 갱신
+    gan = max(gan, beer[i][1])  # 최대 간 수치 갱신
+    
+    if len(result) > n :  # 우선순위큐의 길이가 입력받은 기간보다 긴 경우
+        tmp = heappop(result)  # 선호도가 가장 낮은 맥주 꺼내기
+        favor -= tmp[0]  # 꺼낸 맥주의 선호도 제거
+
+    # 입력받은 기간만큼의 맥주가 있고 선정된 맥주들의 선호도의 합이 입력받은 선호도 이상일 경우
+    if len(result) == n and favor >= m :
+        print(gan)  # 간 수치 출력 후 종료
+        exit()
+        
+print(-1)
+
+        
