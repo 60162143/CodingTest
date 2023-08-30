@@ -1,0 +1,32 @@
+
+# 문제 : https://www.acmicpc.net/problem/7571
+
+# keyPoint
+# 1. 각 좌표의 x, y점의 평균이 아닌 중앙값을 이용한 문제 풀이
+# 2. 중앙값이란 정렬한 후 가운데에 있는 좌표
+# 3. 중앙값이 2개인 경우 2개중 어떠한 것을 사용해도 정답
+
+# code
+from sys import stdin
+
+# 입력
+n, m = map(int, stdin.readline().split())
+
+dotX = []  # x좌표 모음
+dotY = []  # y좌표 모음
+
+# 입력
+for _ in range(m) :
+    x, y = map(int, stdin.readline().split())
+    dotX.append(x)
+    dotY.append(y)
+    
+rx = sorted(dotX)[m // 2]  # x좌표의 중앙값
+ry = sorted(dotY)[m // 2]  # y좌표의 중앙값
+result = 0  # 결과값
+
+# x좌표와 y좌표를 절대값으로 거리 계산
+for i in range(m) :
+    result += abs(rx - dotX[i]) + abs(ry - dotY[i])
+    
+print(result)
