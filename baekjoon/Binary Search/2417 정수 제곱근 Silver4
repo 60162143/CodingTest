@@ -1,0 +1,24 @@
+
+# 문제 : https://www.acmicpc.net/problem/2417
+
+# keyPoint
+# 1. 이분탐색을 이용한 문제
+
+# code
+from sys import stdin
+
+n = int(stdin.readline())  # 입력
+
+start, end = 0, 2**63  # 시작점, 끝점 설정
+result = 0  # 결과값
+
+# 이분 탐색
+while start <= end :
+    mid = (start + end) // 2  # 중앙값 설정
+    if mid ** 2 >= n :  # 중앙값의 제곱근이 n보다 크거나 같을 경우
+        result = mid  # 중앙값 저장
+        end = mid - 1  # 끝점을 중앙 - 1로 이동
+    else :  # 중앙값의 제곱근이 n보다 작을 경우
+        start = mid + 1  # 시작점을 중앙+1로 이
+        
+print(result)
