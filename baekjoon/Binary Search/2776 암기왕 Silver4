@@ -1,0 +1,49 @@
+
+# 문제 : https://www.acmicpc.net/problem/2776
+
+# keyPoint
+# 1. 이진 탐색으로 문제 풀이
+# 2. 이진탐색을 직접 구현할 경우 while문 안에 코드는 최대한 간결하게 짤것
+
+# code
+from sys import stdin
+from bisect import bisect_left, bisect_right
+
+t = int(stdin.readline())  # 입력
+
+for _ in range(t) :
+    # 입력
+    n = int(stdin.readline())
+    arrN = list(map(int, stdin.readline().split()))
+    m = int(stdin.readline())
+    arrM = list(map(int, stdin.readline().split()))
+
+    arrN.sort()  # 이진 탐색을 하기 위한 정렬
+
+    # 원소를 하나씩 꺼내면서 순회
+    for item in arrM :
+        # bisect_left와 right가 같을 경우 값이 존재하지 않음
+        if bisect_left(arrN, item) == bisect_right(arrN, item) :
+            print(0)
+        else :
+            print(1)
+    
+    # for item in arrM :
+        
+    #     start, end = 0, n - 1
+    #     find = False
+    #     while start <= end :
+    #         mid = (start + end) // 2
+                
+    #         if arrN[mid] > item :
+    #             end = mid - 1
+    #         elif arrN[mid] < item :
+    #             start = mid + 1
+    #         else :
+    #             find = True
+    #             break
+                
+    #     print(1 if find else 0)
+                
+
+
