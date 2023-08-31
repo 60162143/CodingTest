@@ -1,0 +1,35 @@
+
+# 문제 : https://www.acmicpc.net/problem/1072
+
+# keyPoint
+# 1. 이분탐색을 이용한 문제
+# 2. 끝점을 문제의 범위인 10**7로 설정해도 O(log)의 시간복잡도를 가지므로 가능
+
+# code
+from sys import stdin
+
+# 입력
+x, y = map(int, stdin.readline().split())
+
+# 확률 계산
+# 곱셈을 먼저 한 뒤 나눗셈을 해야함( 파이썬은 부동소수점 오차가 있기 때문이라고 함 )
+z = y *100 // x
+
+if z >= 99 :  # 확률이 99퍼센트 이상인 경우 더이상 증가할 수 없기 때문에 -1 출력
+    print(-1)
+    exit()
+else :
+    left, right = 0, 1000000000  # 시작점 끝점 설정
+    result = 0  # 결과값
+
+    # 이분 탐색
+    while left <= right :
+        mid = (left + right) // 2  # 중앙 값 계산
+        
+        if (y + mid) * 100 // (x + mid) > z :  # 확률이 증가했을 경우
+            result = mid  # 결과값을 중앙 값으로 설정
+            right = mid - 1  # 끝점을 중앙값 -1로 설정
+        else :
+            left = mid + 1  # 시작점을 중앙값 +1로 설정
+            
+    print(result)
