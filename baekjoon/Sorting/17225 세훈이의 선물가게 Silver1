@@ -1,0 +1,82 @@
+
+# 문제 : https://www.acmicpc.net/problem/17225
+
+# keyPoint
+# 1. 파란색과 빨간색 작업을 나누어서 우선순위큐에 삽입
+# 2. 예상 작업 종료 시간을 큐 마지막에 넣어서 다음 작업 시간과 비교하여 큐에 삽입
+# 3. 파란색과 빨간색의 작업시간을 비교하면서 시간이 빠른것부터 계
+
+# code
+from sys import stdin
+from collections import deque
+
+# 파란색 시간, 빨간색 시간, 손님 수 입력
+a, b, n = map(int, stdin.readline().split())
+
+# 파란색, 빨간색 작업 시간을 넣을 리스트
+# 리스트의 마지막에 항상 작업 종료 예상시간을 넣어주므로 0으로 초기화( 초기 작업 종료 예상 시간은 0초이기 때문 )
+blue = deque([0])
+red = deque([0])
+
+# 입력
+for _ in range(n) :
+    # 주문 시각, 포장지 색깔, 선물의 개수 입력
+    x, y, z = stdin.readline().rstrip().split()
+    x, z = int(x), int(z)  # 정수화
+
+    # 각 색깔별로 리스트에 예상 작업 시각 입력
+    if y == "B" :
+        tmp = blue.pop()  # 이전 작업 예상 종료 시각 pop
+
+        # 현재 입력된 작업 시각보다 이전 작업이 늦게 종료될 경우 시작 시각을 종료 시점으로 설정
+        tmp = tmp if tmp > x else x
+
+        # 선물의 수 만큼 작업 예상 시각 입력, 마지막에 작업 예상 종료 시각을 넣어야 하므로 범위가 +1임
+        for i in range(z + 1) :
+            blue.append(tmp + i * a)
+    else :
+        tmp = red.pop()  # 이전 작업 예상 종료 시각 pop
+
+        # 현재 입력된 작업 시각보다 이전 작업이 늦게 종료될 경우 시작 시각을 종료 시점으로 설정
+        tmp = tmp if tmp > x else x
+
+        # 선물의 수 만큼 작업 예상 시각 입력, 마지막에 작업 예상 종료 시각을 넣어야 하므로 범위가 +1임
+        for i in range(z + 1) :
+            red.append(tmp + i * b)
+
+# 작업 종료 예상 시각은 필요 없는 정보이므로 제거
+blue.pop()
+red.pop()
+
+# 선물을 포장하는 순서를 담을 리스트
+resultB = []
+resultR = []
+idx = 1  # 선물 포장 순서
+
+# 작업 예상 시각을 비교하면서 빠른 순서대로 포장 ( 파란색 포장이 빨간색보다 우선순위가 높음 )
+while blue and red :
+    if blue[0] <= red[0] :
+        resultB.append(idx)
+        blue.popleft()
+    else :
+        resultR.append(idx)
+        red.popleft()
+    idx += 1  # 선물 포장 순서 증가
+
+# 파란색 포장 예상 시각만 남은 경우 남은 포장 완료
+while blue :
+    resultB.append(idx)
+    blue.popleft()
+    idx += 1
+
+# 빨간색 포장 예상 시각만 남은 경우 남은 포장 완료
+while red :
+    resultR.append(idx)
+    red.popleft()
+    idx += 1
+
+# 출력
+print(len(resultB))
+print(" ".join(map(str, resultB)))
+print(len(resultR))
+print(" ".join(map(str, resultR)))
