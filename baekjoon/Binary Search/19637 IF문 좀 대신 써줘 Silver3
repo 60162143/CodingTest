@@ -1,0 +1,39 @@
+
+# 문제 : https://www.acmicpc.net/problem/19637
+
+# keyPoint
+# 1. 이분탐색을 이용한 문제
+
+# code
+from sys import stdin
+
+n, m = map(int, stdin.readline().split())  # 입력
+
+mark = []  # 칭호 담을 리스트
+
+# 칭호 입력
+for _ in range(n) :
+    x, y = stdin.readline().rstrip().split()
+    mark.append((x, int(y)))
+    
+mark.sort(key=lambda x : x[1])  # 칭호 전투력 순으로 정렬
+
+atk = [int(stdin.readline()) for _ in range(m)]  # 전투력 입력
+
+# 입력받은 전투력 리스트 순회
+for i in range(m) :
+    left, right = 0, len(mark) - 1  # 시작점, 끝점 설정
+    
+    result = mark[0][0]  # 전투력이 제일 낮은 칭호로 초기화
+
+    # 이분 탐색
+    while left <= right :
+        mid = (left + right) // 2  # 중앙값 설정
+        
+        if mark[mid][1] >= atk[i] :   # 중앙값의 전투력이 입력받은 전투력보다 크거나 같을 경우
+            result = mark[mid][0]  # 칭호 갱신
+            right = mid - 1  # 끝점을 중앙값 -1로 갱신
+        else :  # 중앙값의 전투력이 입력받은 전투력보다 작을 경우
+            left = mid + 1  # 시작점을 중앙값 +1로 갱신
+            
+    print(result)
