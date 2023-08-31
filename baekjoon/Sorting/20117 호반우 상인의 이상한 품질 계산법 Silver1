@@ -1,0 +1,29 @@
+
+# 문제 : https://www.acmicpc.net/problem/20117
+
+# keyPoint
+# 1. 정렬 후 가장 작은 것과 가장 큰 것 두개로 묶으면 중앙값은 가장 큰 값이 되고 이 값들의 합이 가장 큰 값이 됨
+# 2. 세개씩 묶는것보다 두개씩 묶는 것이 최대값
+# 3. 하나가 남을 경우 그냥 더해줌
+
+# code
+from sys import stdin
+from collections import deque
+
+# 입력
+n = int(stdin.readline())
+
+how = list(map(int, stdin.readline().split()))
+
+howR = deque(sorted(how))  # 입력받은 값 정렬
+result = 0  # 결과값
+
+# 큐가 빌때까지 반복
+while howR :
+    if len(howR) >= 2 :  # 큐에 남은 값이 2개 이상일 경우 가장 큰 값과 가장 작은 값을 묶어서 계산
+        howR.popleft()
+        result += howR.pop() * 2
+    else :  # 1개가 남을 경우 그냥 더해줌
+        result += howR.pop()
+        
+print(result)
