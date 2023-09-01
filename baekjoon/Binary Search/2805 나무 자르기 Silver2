@@ -1,0 +1,35 @@
+
+# 문제 : https://www.acmicpc.net/problem/2805
+
+# keyPoint
+# 1. 이분 탐색을 이용한 문제
+# 2. 시간초과가 날 경우 코드를 최대한 간결하게 짜볼것
+
+# code
+from sys import stdin
+
+# 입력
+n, m = map(int, stdin.readline().split())
+tree = list(map(int, stdin.readline().split()))
+
+start, end = 0, max(tree)  # 시작점, 끝점 설정
+result = 0  # 결과값
+
+# 이분 탐색
+while start <= end :
+    mid = (start + end) // 2  # 중앙값
+    
+    total = 0  # 자른 나무들의 총 길이
+
+    # 자른 나무들의 총 길이 계산
+    for item in tree :
+        if item > mid :  # 자를 나무의 길이가 절단기보다 길 경우만 더해줌
+            total += item - mid
+        
+    if total >= m :  # 자른 나무 총 길이가 목표 나무 길이보다 크거나 같을 경우
+        result = mid  # 결과값에 저장
+        start = mid + 1  # 시작점 이동
+    else :
+        end = mid - 1  # 끝점 이
+        
+print(result)
