@@ -1,0 +1,47 @@
+
+# 문제 : https://www.acmicpc.net/problem/2343
+
+# keyPoint
+# 1. 이분 탐색을 이용한 문제
+# 2. 이분탐색의 경우 시작점과 끝점의 범위를 정확하게 설정해야 함
+# 3. 탐색 분기에서 조건을 명확하게 설정해야 함
+
+# code
+from sys import stdin
+import sys
+
+# 입력
+n, m = map(int, stdin.readline().split())
+guitar = list(map(int, stdin.readline().split()))
+
+# 시작점, 끝점 설정
+# 시작점은 영상길이가 가장 긴 값, 끝점은 모든 영상 길이의 합
+# 시작점과 끝점을 명확하게 설정해야 원하는 답을 도출할 수 있음, 대충 0, sys.maxsize로 하면 안됨!!!!!!!
+start, end = max(guitar), sum(guitar)
+
+result = 0  # 결과값
+
+# 이분 탐색
+while start <= end :
+    mid = (start + end) // 2  # 중앙값 설정
+    
+    count, sum = 0, 0  # 쪼갠 영상 개수, 쪼개진 영상들의 합
+
+    # 리스트를 순회
+    for i in range(n) :
+        if sum + guitar[i] > mid :  # 쪼개진 영상들의 합과 현재 영상의 합이 중앙값보다 클 경우 다른 블루레이에 넣어야 함
+            count += 1  # 영상 개수 증가
+            sum = 0  # 쪼개진 영상들의 합 초기화
+        sum += guitar[i]  # 쪼개진 영상길이 추가
+
+    # 쪼개진 영상들의 합이 0이 아닐 경우 블루레이 영상 1개 추가
+    if sum :
+        count += 1
+
+    if count > m :  # 쪼개진 영상 개수가 원하는 개수보다 많을 경우 
+        start = mid + 1
+    else :  # 쪼개진 영상 개수가 원하는 개수보다 적거나 같을 경우
+        result = mid  # 결과값 저장
+        end = mid - 1  
+        
+print(result)
