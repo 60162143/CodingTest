@@ -1,0 +1,35 @@
+
+# 문제 : 
+
+# keyPoint
+# 1. 보석을 n개씩 나누면서 사람의 수를 계산하여 사람수가 입력받은 사람수보다 작거나 같아야 함
+# 2. 보석을 다 소진해야 하지만 안가져가는 사람도 있기 때문
+
+# code
+from sys import stdin
+from math import ceil  # 올림을 위해 import
+
+# 입력
+n, m = map(int, stdin.readline().split())
+arr = [int(stdin.readline()) for _ in range(m)]
+
+start, end = 1, max(arr)  # 시작점, 끝점 설정
+result = 0  # 결과값
+
+# 이분 탐색
+while start <= end :
+    mid = (start + end) // 2  # 중앙값 설정
+    
+    count = 0  # 보석을 mid개씩 나누었을 때의 사람 수
+
+    # 리스트 순회
+    for item in arr :
+        count += ceil(item / mid)  # 보석을 mid개씩 나눈 사람수를 올림하여 계산(나머지 보석도 소진해야 하기 때문)
+        
+    if count <= n :  # 사람수가 입력받은 사람수보다 작을 경우
+        result = mid  # 결과값 저장(보석을 가져가지 않은 사람이 존재할 수 있기 때문)
+        end = mid - 1  # 끝값 갱신
+    else :
+        start = mid + 1  # 시작값 갱신
+        
+print(result)
