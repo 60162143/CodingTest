@@ -1,0 +1,29 @@
+
+# 문제 : https://www.acmicpc.net/problem/1010
+
+# keyPoint
+# 1. 큰 문제를 작은 문제로 또는 작은 문제를 큰 문제로 풀이 가능할 경우 dp 사용
+# 2. dp를 사용할 경우 점화식을 도출할 수 있도록 그림이나 예시를 직접 작성해볼것
+# 3. 이 문제의 경우 왼쪽 값과 왼쪽 위의 값을 더하면 현재 위치의 값을 구할 수 있음(조합)
+
+# code
+from sys import stdin
+
+t = int(stdin.readline())  # 입력
+
+for _ in range(t) :
+    n, m = map(int, stdin.readline().split())  # 입력
+    
+    dp = [[0 for _ in range(m + 1)] for _ in range(n + 1)]  # dp를 위한 리스트
+
+    # 리스트 순회
+    for i in range(1, n + 1) :
+        for j in range(1, m + 1) :
+            if i == 1 :  # n이 1일 경우 m가지 방법만 존재
+                dp[i][j] = j
+            elif j == i :  # n과 m이 같을 경우 1가지 방법만 존재
+                dp[i][j] = 1
+            elif j > i :  # m이 m보다 큰 경우 현재 위치 값은 왼쪽 값과 왼쪽 위쪽의 값을 더한 값
+                dp[i][j] = dp[i][j - 1] + dp[i - 1][j - 1]
+                
+    print(dp[n][m])
