@@ -1,0 +1,16 @@
+
+# 문제 : https://www.acmicpc.net/problem/9655
+
+# keyPoint
+# 1. 짝수 or 홀수로 게임의 승리가 갈리는 쉬운 문제
+
+# code
+from sys import stdin
+
+# 입력
+n = int(stdin.readline())
+
+if n % 2 == 1 :  # 홀수일 경우 SK 승
+    print("SK")
+else :
+    print("CY")
