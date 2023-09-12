@@ -1,0 +1,27 @@
+
+# 문제 : https://www.acmicpc.net/problem/2839
+
+# keyPoint 
+# 1. 바텀업으로 현재 위치에서 3 또는 5를 더하면서 최소값으로 dp를 갱신하여 n의 위치값 까지 계산
+
+# code
+from sys import stdin
+
+# 입력
+n = int(stdin.readline())
+
+# 임의의 큰 값인 10000으로 할당, n이 5005까지 올수 있으므로 5006범위 설정
+dp = [10000 for _ in range(5006)]
+
+dp[3] = 1  # 3kg 설탕 1 봉지
+dp[5] = 1  # 5kg 설탕 1 봉지
+
+# 리스트 순회
+for i in range(3, n + 1) :
+    dp[i + 3] = min(dp[i] + 1, dp[i + 3])  # 현재 위치와 3kg설탕 1봉지 추가했을 때의 최솟값으로 갱신
+    dp[i + 5] = min(dp[i] + 1, dp[i + 5])  # 현재 위치와 5kg설탕 1봉지 추가했을 때의 최솟값으로 갱신
+    
+if dp[n] == 10000 :  # 임의의 최대값인 경우 도달할 수 없으므로 -1 출력
+    print(-1)
+else :
+    print(dp[n])
