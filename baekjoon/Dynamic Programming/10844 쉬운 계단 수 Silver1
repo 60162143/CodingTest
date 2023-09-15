@@ -1,0 +1,29 @@
+
+# 문제 : https://www.acmicpc.net/problem/10844
+
+# keyPoint
+# 1. dp를 이용하여 0~9 까지의 계산을 자릿수마다 저장하면서 바텀업으로 계산
+
+# code
+from sys import stdin
+
+# 입력
+n = int(stdin.readline())
+
+dp = [[0 for _ in range(10)] for _ in range(n + 1)]  # dp[자릿수][맨 앞에 오는 숫자]
+
+# 자릿수가 1일때 값은 1
+for i in range(1, 10) :
+    dp[1][i] = 1
+
+# 리스트 순회
+for i in range(2, n + 1) :
+    for j in range(10) :  # 0 ~ 9까지 순회
+        if j == 0 :  # 맨 앞에 오는 숫자가 0일 경우 이전 숫자는 1이므로 자리수가 1 작은 0으로 시작하는 dp값 넣어줌
+            dp[i][j] = dp[i - 1][1]
+        elif j == 9 :  # 맨 앞에 오는 숫자가 9일 경우 이전 숫자는 8이므로 자리수가 1작은 9으로 시작하는 dp값 넣어줌
+            dp[i][j] = dp[i - 1][8]
+        else :  # 이전 자릿수의 1작거나 1큰 수의 dp값의 합을 넣어줌
+            dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j + 1]
+
+print(sum(dp[n]) % 1000000000)
