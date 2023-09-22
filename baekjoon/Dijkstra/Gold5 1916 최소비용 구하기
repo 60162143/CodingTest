@@ -1,0 +1,57 @@
+
+# 문제 : https://www.acmicpc.net/problem/1916
+
+# 아이디어 : 
+# 1. 기본적인 다익스트라 알고리즘
+# 2. 각 노드와 간선의 길이를 입력받고 다익스트라 알고리즘을 사용하여 문제 해결
+# 3. 다익스트라 알고리즘은 가중치가 음수가 아닐때만 사용가능!!!
+
+# 회고 :
+# 1. 첫 골드 5문제 풀이라 어려울줄 알았는데 막상 문제를 풀어보니 그렇게 어렵지 않았다
+
+
+# code
+from sys import stdin
+from heapq import heappop, heappush
+
+INF = int(1e9)  # 10억 미만의 최댓값 사용
+
+# 입력
+N = int(stdin.readline())
+M = int(stdin.readline())
+
+graph = [[] for _ in range(N + 1)]  # 인접 노드 리스트
+distance = [INF for _ in range(N + 1)]  # 최단 거리 리스트
+
+# 인접 노드 입력
+for _ in range(M) :
+    x, y, z = map(int, stdin.readline().split())
+
+    # x -> y로의 가중치 z
+    graph[x].append((y, z))
+
+# 시작점, 끝점 입력
+start, end = map(int, stdin.readline().split())
+
+queue = []  # 우선순위 큐
+heappush(queue, (0, start))  # 우선순위큐에 시작점 삽입
+distance[start] = 0
+
+while queue :
+    dist, item = heappop(queue)  # 탐색할 노드와 거리
+
+    # 기존 최단거리보다 멀다면 무시
+    if dist > distance[item] :
+        continue
+
+    # 인접 노드 확인
+    for it, di in graph[item] :
+        cost = dist + di  # 인접 노드를 거쳐가는 최단거리
+
+        # 기존 최단거리보다 인접 노드를 거쳐가는 거리가 더 짧을 경우
+        if cost < distance[it] :
+            distance[it] = cost  # 최단거리 갱신
+            
+            heappush(queue, (cost, it))  # 우선순위 큐에 최단거리와 노드 삽입
+            
+print(distance[end])
