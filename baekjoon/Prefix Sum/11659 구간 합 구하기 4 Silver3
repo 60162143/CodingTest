@@ -1,0 +1,24 @@
+
+# 문제 : https://www.acmicpc.net/problem/11659
+
+# keyPoint
+1. 완전탐색으로 풀게 될 경우 O(NM)으로 시간초과가 난다
+2. 누적합을 적용하여 먼저 누적합을 구해준 후 구간합을 구한다 => 구간합을 구하는 시간복잡도가 O(N) - > O(1)로 단
+
+# code
+from sys import stdin
+
+n, m = map(int, stdin.readline().split())  # n, m 입력
+
+arr = list(map(int, stdin.readline().split()))  # 배열 입력
+dp = [0 for _ in range(n + 1)]  # 누적합을 구하려는 배열, 원활한 계산을 위해 dp[0]을 추가
+
+# 누적합 계산
+for index, item in enumerate(arr) :
+    dp[index + 1] = dp[index] + item
+
+
+for index in range(m) :
+    i, j = map(int, stdin.readline().split())
+    
+    print(dp[j] - dp[i - 1])  # 구간합으로 출력, 시간복잡도 O(1)
