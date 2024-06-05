@@ -6,6 +6,7 @@
 # 2. Counter의 most_common() 함수를 사용하여 최빈값을 많은 순서대로 나열 가능 ( 순서는 따로 정렬 해줘야 함 )
 # 3. round(값, 자리수)로 소수점 나타낼 수 있음
 # 4. 아무때나 힙이나 큐 쓰지 말자...
+# 5. 입력을 받을때는 input보다는 stdin을 쓰도록 하자... input 썼다고 시간초과라니....
 
 # code
 from sys import stdin
