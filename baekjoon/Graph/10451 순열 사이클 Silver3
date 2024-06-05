@@ -1,0 +1,65 @@
+
+# 문제 : https://www.acmicpc.net/problem/10451
+
+# keyPoint
+# 1. dfs로 풀어야 겠다는 생각은 들었는데 어떻게 구현해야 되는지 감이 안잡혀서 풀긴 풀었는데 요상하게 품....
+# 2. 위는 내가 푼 코드, 아래는 참고해서 dfs로 푼 코드
+
+# code
+from sys import stdin
+from collections import deque
+----- 내가 푼 코드 -----
+t = int(input())
+
+for _ in range(t) :
+    n = int(stdin.readline())
+    
+    graph = [0 for _ in range(n + 1)]
+    
+    arr = deque(list(map(int, stdin.readline().split())))
+    
+    count = 0
+    for index, item in enumerate(arr) :
+        graph[index + 1] = item
+        
+    while arr :
+        num = arr.popleft()
+        
+        while graph[num] in arr :
+            num = graph[num]
+            arr.remove(num)
+            
+        count += 1
+        
+    print(count)
+
+----- 참고해서 푼 코드 -----
+from sys import stdin
+
+# DFS 탐색 함수
+def dfs(index) :
+    visited[index] = 1  # 방문
+    
+    # 해당 인덱스가 가리키는 수의 방문 여부 확인
+    if visited[arr[index]] == 0 :
+        dfs(arr[index]) # DFS 탐색
+        
+    return
+
+t = int(input())
+
+for _ in range(t) : 
+    n = int(stdin.readline())
+    
+    arr = [0] + list(map(int, stdin.readline().split()))
+    visited = [0 for _ in range(n + 1)]
+    count = 0
+    
+    for i in range(1, n + 1) :
+        if visited[i] == 0 :    # 방문하지 않았을 경우 dfs 탐색
+            dfs(i)
+            
+            count += 1  # 한 노드에 대한 DFS 탐색이 끝난 경우 count 증가
+    
+    print(count)
+    
