@@ -1,0 +1,31 @@
+
+# 문제 : https://www.acmicpc.net/problem/1051
+
+# keyPoint
+# 1. 변의 길이를 늘려가면서 시작점의 위치를 찾아서 네 꼭지점의 수를 비교하여 결과값 저장
+
+# code
+from sys import stdin
+
+n, m = map(int, stdin.readline().split())
+
+arr = []
+
+result = 1  # 결과값 저장
+
+# 리스트 입력
+for i in range(n) :
+    s = list(stdin.readline().strip())
+    arr.append(list(map(int, s)))
+    
+
+for i in range(1, min(n, m)) :  # n과 m중의 최소값까지만 반복 -> 변의 길이를 늘려가며 탐색하는데 정사각형이기 떄문에 변의 길이가 n과 m중의 최소값까지만 가능
+    for j in range(n - i) : # 행의 시작점을 옮겨가면서 반복 -> 변의 길이를 고려해서 시작점의 위치를 제한
+        for k in range(m - i) : # 열의 시작점을 옮겨가면서 반복 -> 변의 길이를 고려해서 시작점의 위치를 제한
+            st = arr[j][k]  # 시작점의 가장 왼쪽 위에 있는 기준점
+            
+            # 각 꼭지점의 숫자가 같은지 확인
+            if st == arr[j + i][k] and st == arr[j][k + i] and st == arr[j + i][k + i] :
+                result = (i + 1) ** 2   # 변의 길이의 제곱으로 넓이 계산해서 결과값에 갱신
+                
+print(result)
