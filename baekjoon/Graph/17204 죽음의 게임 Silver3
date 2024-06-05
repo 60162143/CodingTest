@@ -1,0 +1,36 @@
+
+# 문제 : https://www.acmicpc.net/problem/17204
+
+# keyPoint
+# 1. BFS를 이용하여 탐색
+
+# code
+from sys import stdin
+from collections import deque
+
+n, k = map(int, stdin.readline().split())
+
+arr = []
+visited = [-1 for _ in range(n)]
+
+for _ in range(n) :
+    arr.append(int(stdin.readline()))
+    
+queue = deque()
+
+queue.append(0)
+visited[0] = 1
+count = 0
+
+while queue :
+    num = queue.popleft()
+    
+    if visited[arr[num]] == -1 :
+        queue.append(arr[num])
+        visited[arr[num]] = 1
+        count += 1
+        
+    if arr[num] == k :
+        visited[arr[num]] = count
+        
+print(visited[k])
