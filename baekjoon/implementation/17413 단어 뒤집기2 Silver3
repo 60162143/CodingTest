@@ -1,0 +1,46 @@
+
+# 문제 : https://www.acmicpc.net/problem/17413
+
+# keyPoint 
+# 1. 괄호가 있는 경우 닫힌 괄호가 있기 까지의 문자열을 그대로 더해줌
+# 2. 괄호 안이 아닌 경우 공백이나 다음 괄호를 만나기 까지의 문자열을 구해서 뒤집어서 더해줌
+
+# code
+from sys import stdin
+from collections import deque
+
+s = deque(list(stdin.readline().strip()))
+tmp = ""    # 공백이나 괄호를 기준으로 나눠지는 부분 문자열
+
+result = "" # 최종 결과 문자열
+
+blank = ""  # 공백이 있을 경우 공백을 담을 문자열
+
+while s :   # 문자열 모두 탐색
+    if s[0] == "<" :    # 열린 괄호가 있을 경우
+        while s[0] != ">" : # 닫힌 괄호가 있기 전까지의 문자열 저장
+            tmp += s.popleft()
+        else :
+            tmp += s.popleft()  # 닫힌 괄호
+            
+        result += tmp   # 결과 문자열에 더해주기
+        
+        tmp = ""    # 부분 문자열 초기화
+    else :
+        # 괄호나 공백이 있기 전까지의 문자열
+        while s :
+            if s[0] == " " :    # 공백이 있을 경우
+                blank = s.popleft() # 공백 추출
+                break
+            elif s[0] != "<" :  # 괄호가 아닐 경우
+                tmp += s.popleft()  # 문자 추출
+            else :  # 괄호를 만났을 경우
+                break
+                
+        result += tmp[::-1] + blank # 문자열 뒤접어서 저장, 공백이 있을 경우 공백 문자 더하기
+        
+        # 부분 문자열과 공백 초기화
+        tmp = ""
+        blank = ""
+
+print(result)
