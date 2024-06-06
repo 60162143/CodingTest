@@ -1,0 +1,41 @@
+
+# 문제 : https://www.acmicpc.net/problem/6798
+
+# keyPoint
+# 1. BFS 탐색을 이용하여 풀이
+
+# code
+from sys import stdin
+from collections import deque
+
+# 좌표 입력
+s_x, s_y = map(int, stdin.readline().split())
+e_x, e_y = map(int, stdin.readline().split())
+
+# 방향 벡터
+dx = [-2, -1, 1, 2, 2, 1, -1, -2]
+dy = [1, 2, 2, 1, -1, -2, -2, -1]
+
+visited = [[0 for _ in range(8)] for _ in range(8)] # 방문 여부
+
+queue = deque() # BFS 탐색을 위한 큐
+
+queue.append((s_x - 1, s_y - 1))    # 큐에 시작 좌표 입력, 좌표가 1부터 시작하게 입력받아서 1을 빼줌
+
+while queue :
+    x, y = queue.popleft()  # 탐색할 노드
+    
+    # 목표 좌표에 도달했을 경우, 좌표가 1부터 시작하게 입력받아서 1을 빼줘서 비교
+    if x == e_x - 1 and y == e_y - 1 :
+        print(visited[x][y])
+        break
+    
+    # 모든 방향 확인
+    for i in range(8) :
+        tx, ty = x + dx[i], y + dy[i]
+        
+        # 좌표내에 있고 방문하지 않은 경우
+        if tx >= 0 and ty >= 0 and tx < 8 and ty < 8 and visited[tx][ty] == 0 :
+            queue.append((tx, ty))  # 큐에 넣기
+            
+            visited[tx][ty] = visited[x][y] + 1 # 거리가 이전 노드의 +1
