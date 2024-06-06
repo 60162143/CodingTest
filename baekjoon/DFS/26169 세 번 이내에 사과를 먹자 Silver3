@@ -1,0 +1,56 @@
+
+# 문제 : https://www.acmicpc.net/problem/26169
+
+# keyPoint
+# 1. DFS를 통해 문제를 해결하고 백트래킹을 적용
+# 2. move의 범위 지정에 오류가 있어서 30분을 고민했다.... ㅠㅠ 반례가 무엇인지 꼭꼭 생각해보자
+
+
+# code
+from sys import stdin
+
+# DFS 탐색
+# (x, y, depth, apple) -> (x좌표, y좌표, 움직인 횟수, 사과 개수)
+def dfs(x, y, move, apple) :
+    if arr[x][y] == 1 : # 현재 위치의 사과가 있을 경우 사과 개수 +1
+        apple += 1
+    
+    if move > 3 :   # 움직인 횟수가 3번 이상일 경우 종료
+        return
+    
+    if apple == 2 : # 사과 개수가 2개 이상일 경우 결과값에 결과 입력 후 종료
+        global result
+        result = 1
+        
+        return
+    
+    # 현재 좌표를 기준으로 4방향 탐색
+    for i in range(4) :
+        tx, ty = x + dx[i], y + dy[i]
+        
+        # 좌표 범위 내에 있고 다음 좌표가 장애물이 아닐 경우
+        if tx >= 0 and ty >= 0 and tx < 5 and ty < 5 and arr[tx][ty] != -1 :
+            # 이동할 경우 현재 좌표가 장애물로 변하므로 
+            # 진행할 경우 장애물로 변경하고 되돌아올경우 다시 원래 값으로 세팅
+            tmp = arr[x][y]
+            arr[x][y] = -1
+            
+            dfs(tx, ty, move + 1, apple)    # 움직임 횟수를 증가해서 DFS 탐색
+
+            arr[x][y] = tmp # 탐색이 끝난 좌표를 원래대로 복원
+            
+    return        
+
+arr = [list(map(int, stdin.readline().split())) for _ in range(5)]
+
+r, c = map(int, stdin.readline().split())
+
+result = 0
+
+# 방향 좌표
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+
+dfs(r, c, 0, 0) # DFS 탐색
+
+print(result)
