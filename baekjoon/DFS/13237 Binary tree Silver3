@@ -1,0 +1,47 @@
+
+# 문제 : https://www.acmicpc.net/problem/13237
+
+# keyPoint
+# 1. 루트노드를 기준으로 DFS 탐색
+# 2. 방문 여부를 높이로 생각하여 이전 방문노드 +1을 다음 방문노드에 더해줘서 높이 계산
+
+# code
+from sys import stdin
+
+# DFS 탐색
+def dfs(pre_index) :
+    for post_index in graph[pre_index] :  # 인접 노드 탐색
+        if arr[post_index] == -1 :    # 루트 노드일 경우 탐색 X, 높이가 0이기 때문
+            return
+        
+        if visited[post_index] == 0 : # 방문하지 않았을 경우 탐색
+            visited[post_index] = visited[pre_index] + 1  # 인접 노드 높이를 이전 노드 높이의 +1
+            
+            dfs(post_index) # 인점 노드를 기준으로 DFS
+
+n = int(input())
+
+arr = [0]
+visited = [0 for _ in range(n + 1)] # 노드 방문 여부
+graph = [[] for _ in range(n + 1)]  # 노드 연결 그래프
+
+route_node = 0  # 루트 노드의 index
+
+for i in range(n) :
+    num = int(stdin.readline()) # 입력
+    
+    # 루트 노드 찾기
+    if num == -1 :
+        route_node = i + 1
+        
+    arr.append(num)
+    
+# 그래프를 배열로
+for i in range(1, n + 1) :
+    graph[arr[i]].append(i)
+    
+dfs(route_node) # 루트 노드를 기준으로 DFS 탐색
+
+# 높이 출력
+for i in range(1, n + 1) :
+    print(visited[i])
