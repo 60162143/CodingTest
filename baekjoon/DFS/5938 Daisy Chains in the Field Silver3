@@ -2,6 +2,7 @@
 # 문제 : https://www.acmicpc.net/problem/5938
 
 # keyPoint 
+# 1. 예외사항이 있을 경우 문제 풀기 전에 확인하자!! 이거때문에 갈아 엎는 경우가 허다해...
 
 # code
 ########## DFS ##########
