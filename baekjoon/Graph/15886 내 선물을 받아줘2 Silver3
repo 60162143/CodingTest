@@ -1,0 +1,57 @@
+
+# 문제 : https://www.acmicpc.net/problem/15886
+
+# keyPoint
+# 1. 나는 정점을 각 노드로 생각해서 "E" or "W"를 간선으로 생각하고 방향그래프로 만들어서 DFS탐색을 통해 순환 그래프의 수를 계산
+# 2. 순환 그래프의 수를 찾으면 그 안에서 모일 수 있는 부분으로 무조건 간다고 생각했기 때문
+#   - > 이 부분이 다른 풀이의 무한루프를 찾는 의미였던것 같다!!
+# 2. if 대신 elif라는 키워드를 사용해서 20분이나 잡아먹었다.... ㅠㅠㅠ elif if 잘 생각하고 사용하자!!
+# 3. 다른 풀이법을 보니 "EW"구간이 있을 때 무한루프가 발생하여 무조건 머무르게 됨
+
+# code
+from sys import stdin
+
+# DFS 탐색
+def dfs(index) :
+    visited[index] = 1  # 방문 처리
+    
+    # 인접한 노드 모두 확인
+    for item in graph[index] :
+        if visited[item] == 0 : # 인접한 노드의 방문이 안되어있는 경우
+            dfs(item)   # DFS 탐색
+            
+    return
+    
+n = int(stdin.readline())
+
+st = stdin.readline().strip()
+
+graph = [[] for _ in range(n)]  # 인저한 노드의 정보가 저장된 그래프
+visited = [0 for _ in range(n)] # 노드의 방문여부
+result = 0
+
+for index, item in enumerate(st) :
+    if index == 0 : # 가장 왼쪽일 경우
+        if st[index + 1] == "W" :   # 오른쪽 칸만 확인
+            graph[index].append(index + 1)
+            graph[index + 1].append(index)
+    elif index == n - 1 :   # 가장 오른쪽일 경우
+        if st[index - 1] == "E" :   # 왼쪽 칸만 확인
+            graph[index].append(index - 1)
+            graph[index - 1].append(index)
+    else :
+        # 양쪽 칸 모두 확인
+        if st[index + 1] == "W" :
+            graph[index].append(index + 1)
+            graph[index + 1].append(index)
+        if st[index - 1] == "E" :
+            graph[index].append(index - 1)
+            graph[index - 1].append(index)
+            
+for i in range(n) :
+    if visited[i] == 0 :
+        dfs(i)
+        
+        result += 1 # 순환 그래프 탐색 완료 시 +1
+        
+print(result)
