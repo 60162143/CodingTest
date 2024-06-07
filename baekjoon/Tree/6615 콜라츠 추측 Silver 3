@@ -1,0 +1,67 @@
+
+# 문제 : https://www.acmicpc.net/problem/1012
+
+# keyPoint
+# 1. 시간 복잡도 대충 계산 후 범위 안에 동작 가능하면 반복문 당당하게 써!!
+# 2. 출력 형식 잘 보고!
+
+# code
+from sys import stdin
+
+while True :
+    n, m = map(int, stdin.readline().split())   # 입력
+    
+    # 0 0을 입력받을 경우 종료
+    if n == 0 and m == 0 :
+        break
+    
+    arr1 = []   # 첫번째 수열 결과 담을 배열
+    arr2 = []   # 두번째 수열 결과 담을 배열
+    
+    st = n  # 첫번째 수열 시작 수
+    et = m  # 두번째 수열 시작 수
+    
+    result_st_index = 0 # 두 수열의 같은 수의 첫번째 수열의 인덱스
+    result_et_index = 0 # 두 수열의 같은 수의 두번째 수열의 인덱스
+    
+    find_flag = False   # 같은 수 찾은 결과 Flag
+    
+    # 1이 나오기 전까지 계산
+    # 첫번째 수열
+    while st != 1 :
+        arr1.append(st) # 결과 배열에 추가
+        
+        # 짝수 -> 2로 나누기
+        # 홀수 -> 3을 곱한 후 1을 더하기
+        if st % 2 == 0 :
+            st //= 2
+        else :
+            st = 3 * st + 1
+    else :
+        arr1.append(st) # 1이 나오면 반복문 탈출하므로 1을 배열에 추가
+            
+    # 두번째 수열
+    # 위와 동일
+    while et != 1 :
+        arr2.append(et)
+        
+        if et % 2 == 0 :
+            et //= 2
+        else :
+            et = 3 * et + 1
+    else :
+        arr2.append(et)
+        
+    # 첫번째 수열과 두번째 수열의 같은 수 찾기
+    for idx1, item1 in enumerate(arr1) :
+        if not find_flag :  # 같은수를 아직 못찾은 경우만 확인
+            for idx2, item2 in enumerate(arr2) :
+                if item1 == item2 : # 같은 수일 경우
+                    # 인덱스 저장
+                    result_st_index = idx1
+                    result_et_index = idx2
+                    
+                    find_flag = True
+                    break
+    
+    print(f"{n} needs {result_st_index} steps, {m} needs {result_et_index} steps, they meet at {arr1[result_st]}")
