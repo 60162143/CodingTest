@@ -1,0 +1,44 @@
+
+# 문제 : https://www.acmicpc.net/problem/1012
+
+# keyPoint
+# 1. 이틀동안 끙끙댄 문제...
+# 2. 시작점부터 연속된 개수를 구하는 문제인줄 알았지만 부분수열중 연속된 수의 최대를 찾는 문제였던것.....
+# 3. 문제 이해좀 잘 해보자 쫌!!!
+
+# code
+from sys import stdin
+
+s, e = map(int, stdin.readline().split())
+
+stamp = list(map(int, stdin.readline().split()))  # 우표 입력
+result_stamp = []   # 계산된 우표를 저장
+
+# 우표 1번 계산
+for item in stamp :
+    result_stamp.append(item)
+
+for i in range(1, e) : # 최대 우표수 까지 계산
+    set_stamp = set(result_stamp)  # 우표를 집합 자료형으로 변환하여 중복 제거 및 탐색 시간 줄이기 위해 사용
+    
+    for pre_stamp_item in result_stamp :    # 계산할 우표
+        for post_stamp_item in stamp :  # 다음 뽑을 우표
+            if pre_stamp_item + post_stamp_item not in set_stamp :  # 계산할 우표 + 다음 뽑을 우표의 금액이 아직 계산한적이 없는 경우
+                set_stamp.add(pre_stamp_item + post_stamp_item) # 결과 집합 우표에 추가
+                
+    result_stamp = list(set_stamp)  # 집합으로 된 결과 우표를 리스트 형태로 변경
+    
+result_stamp.sort() # 리스트 형태의 우표를 정렬해서 1부터 확인
+
+# 최소 1개는 연속이므로 1로 초기화
+result = 1  # 최종 결과 값
+linear  = 1    # 연속된 숫자 개수
+for i in range(1, len(result_stamp)) :
+    if result_stamp[i] - result_stamp[i - 1] == 1 : # 연속된 숫자인경우
+        linear += 1 # 연속된 숫자 개수 +1
+    else :  # 연속되지 않은 숫자 발견 시
+        result = max(result, linear)    # 최종 결과값과 연속된 개수 비교하여 큰 값 저장
+        linear = 1  # 연속된 숫자 개수 초기화
+        
+# 처음부터 마지막까지 모두 연속된 경우가 있기 때문에 마지막에 한번더 비교
+print(max(result, linear))  # 출력
