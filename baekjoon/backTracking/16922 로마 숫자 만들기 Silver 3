@@ -1,0 +1,47 @@
+
+# 문제 : https://www.acmicpc.net/problem/16922
+
+# keyPoint
+# 1. 중복조합의 문제
+# 2. 백트래킹으로 진행하면서 시작점을 파라미터로 넘겨서 적어도 이전값보다 작아지지 않음을 보장
+
+# code
+# 백트래킹 탐색
+# 시작점을 파라미터로 받아서 적어도 시작점이 이전 값보다 작지 않음을 보장
+# -> 중복조합이기 때문
+def backtraking(start) :
+    # n개의 조합을 만들었을 경우 합을 계산하여 집합에 추가 -> 중복 제거하기 위함
+    if len(result) == n :
+        result_set.add(num_sum(result))
+        
+        return
+        
+    # 로마숫자를 한개식 추가하면서 백트래킹
+    # 시작점을 파라미터로 받아서 적어도 이전값보다 작은 로마숫자를 넣지 않음
+    # -> 중복조합이기 때문
+    for i in range(start, 4) :
+        result.append(rome_arr[i])
+        backtraking(i)
+        result.pop()
+        
+# 완성한 로마숫자의 합계를 구하는 함수
+def num_sum(result) :
+    sum_result = 0
+    
+    for item in result :
+        sum_result += rome[item]
+        
+    return sum_result
+
+n = int(input())
+result = [] # 완성할 로마숫자를 담을 배열
+
+result_set = set()  # 완성된 로마숫자의 수를 담을 집합 -> 중복제거를 위한 집합
+
+# 로마 숫자와 그 값
+rome = {"I" : 1, "V" : 5, "X" : 10, "L" : 50}
+rome_arr = ["I", "V", "X", "L"]
+
+backtraking(0)
+
+print(len(result_set))
