@@ -2,6 +2,7 @@
 # 문제 : https://www.acmicpc.net/problem/1012
 
 # keyPoint
+# 1. BFS, DFS 모두 해보자
 
 # code
 #################### BFS ####################
