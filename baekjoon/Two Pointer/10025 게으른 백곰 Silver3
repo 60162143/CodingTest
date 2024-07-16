@@ -1,0 +1,41 @@
+
+# 문제 : https://www.acmicpc.net/problem/10025
+
+# keyPoint
+# 1. 이중 반복문으로 i + 1 ~ n까지 계산해서 풀었는데도 시간 초과.... 더 줄여야 한다
+# 2. 슬라이싱 윈도우 기법으로 앞뒤로 더하고 빼면서 O(n)의 시간복잡도로 계산 가능하다
+
+# code
+from sys import stdin
+
+n, k = map(int, stdin.readline().split())   # 입력
+
+ice = []    # 얼음 리스트
+
+# 편의상 위치와 값을 바꿔서 저장
+for _ in range(n) :
+    x, y = map(int, stdin.readline().split())
+    ice.append((y, x))
+    
+start, end = 0, 0   # 슬라이싱 윈도우를 위한 투포인터 인덱스
+
+answer = 0  # 결과값
+tmp = 0 # 현재 슬라이싱 윈도우로 담겨져 있는 값
+
+ice.sort()  # 투포인터 기법을 위한 정렬
+
+while end < n : # 끝점 인덱스가 범위를 벗어나기 전까지 계산
+    
+    # 시작점의 위치에 2 * k만큼 떨어져 있는 범위 안에 끝점의 위치가 포함될경우
+    # 슬라이싱 윈도우에 추가
+    if ice[start][0] + 2 * k >= ice[end][0] :
+        tmp += ice[end][1]  # 오른쪽 값 추가
+        answer = max(answer, tmp)   # 최댓값 갱신
+        end += 1    # 끝점 인덱스 ++
+    # 시작점의 위치에 2 * k만큼 떨어져 있는 범위 안에 끝점의 위치가 포함되지 않을 경우
+    # 슬라이싱 윈도우에서 제거
+    else :
+        tmp -= ice[start][1]    # 왼쪽 값 제거
+        start += 1  # 시작점 인덱스 ++
+        
+print(answer)
