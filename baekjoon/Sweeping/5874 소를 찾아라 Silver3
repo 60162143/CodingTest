@@ -1,0 +1,50 @@
+
+# 문제 : https://www.acmicpc.net/problem/5874
+
+# keyPoint
+# 1. "((" 와 "))"를 각 "["와 "]"로 치환한수 count 함수를 사용해서 계산
+#     -> 시간 오류가 날수도 있을거 같은 느낌...?
+# 2. 누적합을 이용해서 "(("를 만날 경우 1씩 증가시키고 "))"를 만날 경우 앞에 계산했던 누적합을 더해주면서 계산
+#     -> 시간 복잡도 O(n)으로 이렇게 풀어야 겠다
+
+# code
+# 내 풀이
+from sys import stdin
+
+cow = list(stdin.readline().strip())  # 입력
+
+answer = 0  # 결과 값
+
+word = ""  # 소괄호를 대괄호로 치환한 문자열
+
+# 소괄호를 대괄호로 치환
+for i in range(1, len(cow)) :
+    if cow[i] == "(" and cow[i - 1] == "(" : 
+        word += "["
+    elif cow[i] == ")" and cow[i - 1] == ")" :
+        word += "]"
+
+# 뒷다리를 만날 경우 뒤에 있는 앞다리의 개수 계산
+for i in range(len(word)) :
+    if word[i] == "[" :
+        answer += word[i + 1:].count("]")
+
+print(answer)
+
+# 누적합 풀이
+from sys import stdin
+
+cow = list(stdin.readline().strip())  # 입력
+
+answer = 0  # 결과 값
+front_leg = 0  # 뒷다리의 누적합
+
+for i in range(1, len(cow)) :
+    # 뒷다리를 만날 경우 1씩 증가
+    if cow[i] == "(" and cow[i - 1] == "(" :
+        front_leg += 1
+    # 앞다리를 만날 경우 뒷다리의 누적합을 더해줌
+    elif cow[i] == ")" and cow[i - 1] == ")" :
+        answer += front_leg
+        
+print(answer)
