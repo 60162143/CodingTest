@@ -1,0 +1,33 @@
+
+# 문제 : https://www.acmicpc.net/problem/15889
+
+# keyPoint
+# 1. 맨앞부터 던질수 있는 최대 거리를 계산하면서 순차적으로 최대 거리 계산
+# 2. 맨 마지막 까지 최댓값을 계산한 후 마지막 사람의 거리까지 보다 크거나 같으면 성공 출력
+# 3. 던진 최대 거리가 다음사람까지 닿지 못할 경우 실패 출력
+
+# code
+from sys import stdin
+
+# 입력
+n = int(input())
+friend = list(map(int, stdin.readline().split()))
+power = list(map(int, stdin.readline().split()))
+
+max_power = 0   # 던질 수 있는 최대 거리
+
+for i in range(len(friend) - 1) :
+    # 던진 거리가 다음사람에게 닿지 못하면 실패
+    if max_power < friend[i] :
+        print("엄마 나 전역 늦어질 것 같아")
+        break
+    
+    # 현재 던질 수 있는 최대 거리와 비교하며 최댓값 계산
+    max_power = max(max_power, friend[i] + power[i])
+else :
+    # 마지막 사람에게 던질 수 있는 지 확인
+    if max_power >= friend[-1] :
+        print("권병장님, 중대장님이 찾으십니다")
+    else :
+        print("엄마 나 전역 늦어질 것 같아")
+    
