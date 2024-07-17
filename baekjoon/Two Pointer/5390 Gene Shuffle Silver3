@@ -1,0 +1,40 @@
+
+# 문제 : https://www.acmicpc.net/problem/5390
+
+# keyPoint
+# 1. 집합 자료형을 사용해서 동일 인덱스까지의 원소가 같은지 확인
+# 2. 포인터를 사용해서 하나씩 확인(스위핑)
+
+# code
+from sys import stdin
+
+t = int(input())    # 입력
+
+for _ in range(t) :
+    # 입력
+    n = int(input())
+    
+    a = list(map(int, stdin.readline().split()))
+    b = list(map(int, stdin.readline().split()))
+    
+    # 원소가 같은지 확인하기 위해 집합자료형 사용
+    setA = set()
+    setB = set()
+    
+    result = [] # 결과값을 담을 배열
+    start = 1   # 시작값, 0이 아닌 1부터 시작하기 때문에 1로 초기화
+    
+    for i in range(n) :
+        # 각 원소를 집합에 담기
+        setA.add(a[i])
+        setB.add(b[i])
+        
+        if setA == setB :   # 두 집합의 원소가 같을 경우
+            result.append(f"{start}-{i + 1}")   # 결과값에 추가
+            start = i + 2   # 다음 시작점을 세팅
+            
+            # 두 집합 초기화
+            setA.clear()
+            setB.clear()
+            
+    print(" ".join(result))
