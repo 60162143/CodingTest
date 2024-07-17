@@ -1,0 +1,39 @@
+
+# 문제 : https://www.acmicpc.net/problem/11659
+
+# keyPoint
+1. 이게 무슨 Silver3이냐 ㅡㅡ
+2. 투포인터를 사용해서 O(N)으로 해결
+3. 설명은 코드에 자세히......... 너무 어렵다.... 화이팅
+
+# code
+from sys import stdin
+
+# 입력
+n, p = map(int, stdin.readline().split())
+days = list(map(int, stdin.readline().split()))
+
+max_len = 0 # 최대 연속 기록
+start = 0   # 시작점 초기화
+    
+# 원소 한개씩 탐색
+for end in range(n):
+    # 현재 연속된 일수와 유급 일수 계산
+    # days[end] - days[start] -> 구간의 양 끝 날짜 차이
+    # (end - start) -> 실제 연습 일수
+    # 즉, 유급을 해야 하는 일수를 계산 할 수 있음
+    needed_paid_days = days[end] - days[start] - (end - start)
+        
+    # 구간 사이의 유급해야 하는 날짜가 주어진 유급 일수보다 많을 경우
+    # 시작점을 증가시켜서 필요한 유급일수를 줄여야 함
+    while needed_paid_days > p:
+        start += 1
+        needed_paid_days = days[end] - days[start] - (end - start)
+        
+    # 구간사이의 필요 유급 날짜가 주어진 날짜보다 작아진 구간의 양 끝 날짜 길이 계산
+    current_length = days[end] - days[start] + 1
+    
+    # 날짜의 길이 + 구간사이의 필요 유급 날짜를 제외한 유급 가능 날짜의 최댓값으로 갱신
+    max_len = max(max_len, current_length + p - needed_paid_days)
+
+print(max_len)
