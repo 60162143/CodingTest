@@ -1,0 +1,40 @@
+
+# 문제 : https://www.acmicpc.net/problem/4125
+
+# keyPoint
+# 1. 캔과 색깔 리스트를 비교해가며 투포인터 탐색
+# 2. 캔이 재사용 된다고 안나와 있는데 문제가 좀 이상하네... 쨋든 재사용 가능으로 해결!
+
+# code
+from sys import stdin
+
+n, m = map(int, stdin.readline().split())   # 입력
+
+can = []    # 캔 리스트
+color = []  # 색깔 리스트
+
+# 입력
+for _ in range(n) :
+    can.append(int(stdin.readline()))
+    
+for _ in range(m) :
+    color.append(int(stdin.readline()))
+
+can_index, color_index = 0, 0   # 캔과 색깔의 시작 리스트
+
+answer = 0  # 결과값
+
+# 두 리스트 정렬(투 포인터 사용하기 위함)
+can.sort()
+color.sort()
+
+# 모든 색깔 탐색할때까지 반복
+while color_index < m :
+    # 현재 색깔로 캔 사용 불가할 경우
+    if can[can_index] < color[color_index] :
+        can_index += 1  # 캔의 인덱스 증가
+    else :  # 현재 색깔로 캔 사용 가능한 경우
+        answer += can[can_index] - color[color_index]   # 결과값에 낭비된 페인트양 추가
+        color_index += 1    # 다음 색깔로 이동
+        
+print(answer)
