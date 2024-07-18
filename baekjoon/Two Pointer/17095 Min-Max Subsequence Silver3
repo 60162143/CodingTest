@@ -1,0 +1,50 @@
+
+# 문제 : https://www.acmicpc.net/problem/17095
+
+# keyPoint
+# 1. 최소값의 인덱스, 최대값의 인덱스를 이용한 투포인터 문제
+# 2. 빨리빨리 푸는 연습을 하자!!
+
+# code
+from sys import stdin
+
+# 입력
+n = int(input())
+arr = list(map(int, stdin.readline().split()))
+
+min_num = min(arr)  # 수열의 최솟값
+max_num = max(arr)  # 수열의 최댓값
+
+# 수열의 최솟값과 최댓값의 맨 앞쪽에 있는 index
+min_index, max_index = arr.index(min_num), arr.index(max_num)
+
+# 결과값, 양 끝값을 포함해야 하므로 +1
+min_length = abs(min_index - max_index) + 1
+
+# 두 인덱스가 범위 안에 있으면 반복
+while min_index < n and max_index < n :
+
+    if max_index >= min_index : # 최대값이 더 뒤쪽에 있을 경우 새로운 최소값을 찾아야 함
+
+        min_index += 1  # 최소값 인덱스 증가
+        
+        # 새로운 최소값 인덱스를 찾을때까지 반복
+        while min_index < n :
+            if arr[min_index] == min_num :  # 새로운 최소값을 찾았을 경우
+                min_length = min(min_length, abs(min_index - max_index) + 1)    # 최소 길이 갱신
+                break
+            
+            min_index += 1  # 못찾았을 경우 최소값 인덱스 증가
+    else :  # 최소값이 더 뒤쪽에 있을 경우 새로운 최대값을 찾아야 함
+
+        max_index += 1  # 최대값 인덱스 증가
+        
+        # 새로운 최대값 인덱스를 찾을때까지 반복
+        while max_index < n :
+            if arr[max_index] == max_num :  # 새로운 최대값을 찾았을 경우
+                min_length = min(min_length, abs(min_index - max_index) + 1)    # 최소 길이 갱신
+                break
+                
+            max_index += 1  # 못찾았을 경우 최대값 인덱스 증가
+            
+print(min_length)
