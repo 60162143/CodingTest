@@ -1,0 +1,56 @@
+
+# 문제 : https://www.acmicpc.net/problem/16827
+
+# keyPoint
+# 1. 투포인터가 아닌 딕셔너리 자료형과 heapq 라이브러리를 이용하여 해결
+# 2. 딕셔너리에 리스트로 저장 가능하고 defaultdict 라이브러리를 사용하여 디폴트로 리스트로 저장할 수 있음
+#     -> 즉, 키가 있는지 확인후 넣지 않아도 키가 없는 값은 리스트로 저장 가능함 => collections의 defaultdict import 해줘야 함
+
+# code
+from sys import stdin
+from heapq import heapify, heappop, heappush
+from collections import defaultdict # import 해줘야 함!
+
+n = int(input())
+
+# 색깔을 key, 밀도를 리스트 형태로 넣어 저장하기 위함
+density = defaultdict(list) # 딕셔너리의 값을 디폴트로 리스트로 저장하겠다는 의미
+
+for _ in range(n) :
+    x, y = stdin.readline().split() # 입력
+    
+    heappush(density[x], int(y))    # heqpq를 이용하여 저장, 최소값을 빼기 위함
+
+m = int(input())    # 입력
+
+color = []  # 색깔 리스트
+
+# 입력
+for _ in range(m) :
+    color.append(stdin.readline().strip())
+
+max_density = 0 # 현재 최대 밀도
+
+# 입력받은 색깔을 하나씩 확인
+for item in color :
+    # 색깔이 존재하고 사용가능한 밀도가 존재할 경우
+    if item in density.keys() and density[item] :
+        
+        # 이전 층보다 더큰 밀도가 있을때까지 반복, 사용가능한 밀도가 없을 경우 종료
+        while density[item] :
+            d = heappop(density[item])  # heqpq를 이용하여 최소값의 밀도 pop
+        
+            # 현재 최대 밀도보다 클 경우 사용 가능
+            if max_density < d :
+                max_density = d # 현재 최대 밀도 갱신
+                break
+        else :  # 사용가능한 밀도가 없을 경우
+            # No 출력후 종료
+            print("No")
+            exit()
+    else :  # 색깔이 없거나 사용 가능한 밀도가 없을 경우
+        # No 출력후 종료
+        print("No")
+        exit()
+else :  # 전체 색깔을 모두 확인한 경우
+    print("Yes")
