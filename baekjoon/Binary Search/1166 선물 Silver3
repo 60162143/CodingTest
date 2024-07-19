@@ -1,0 +1,28 @@
+
+# 문제 : https://www.acmicpc.net/problem/1166
+
+# keyPoint
+# 1. 이분탐색을 이용하여 해결
+# 2. 소수점까지 계산해야 할 경우 while문을 사용하면 시간초과가 날 수 있다
+#     -> while문이 아닌 for문을 사용해야 하며 100번 정도 반복하면 결과를 얻을 수 있음!!!
+
+# code
+from sys import stdin
+
+N, L, W, H = map(int, stdin.readline().split()) # 입력
+
+start, end = 0, min(L, W, H)    # 시작점과 끝점, 끝점은 제일 작은 변의 길이가 최대
+
+# 이분탐색은 보통 while문을 사용하지만 소수점을 확인해야 하는경우 시간초과가 날 수 있음
+# 그렇기 때문에 for문을 사용해야하며 100번정도 돌리면 결과를 유추할 수 있음
+for i in range(100) :
+    mid = (start + end) / 2 # 중앙값
+    
+    # 각 변에 넣을 수 있는 개수의 곱으로 총 넣을 수 있는 박스의 개수가 더 많거나 같을 경우
+    # 변의 길이를 늘릴 수 있음
+    if (L // mid) * (W // mid) * (H // mid) >= N :
+        start = mid # 시작점을 중앙값으로 만들기
+    else :  # 더 많은 개수를 넣을 수 없기 때문에 변의 길이를 줄여야 함
+        end = mid    # 끝점을 중앙값으로 만들기
+        
+print(end)
