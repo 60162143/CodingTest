@@ -1,0 +1,49 @@
+
+# 문제 : https://www.acmicpc.net/problem/3838
+
+# keyPoint
+# 1. 이분 탐색으로 해결
+
+# code
+from sys import stdin
+
+while True :
+    n, b = map(int, stdin.readline().split())   # 입력
+    
+    # 입력 예외
+    if n == -1 and b == -1 :
+        break
+    
+    vote = []   # 각 도시의 인구수 리스트
+    
+    # 입력
+    for _ in range(n) :
+        vote.append(int(stdin.readline()))
+    
+    vote.sort() # 이분 탐색을 위한 정렬
+    
+    start, end = 0, vote[-1]    # 시작점과 끝점
+    
+    # 이분탐색
+    while start <= end :
+        mid = (start + end) // 2
+        
+        cnt = 0 # 현재 최대 투표수로 만들수 있는 투표함의 최대 개수
+        
+        # 각 도시에 최대로 들어갈 수 있는 투표함 수 계산
+        for item in vote :
+            
+            # 나머지가 있을 경우 투표함 1개 더 사용
+            if item % mid == 0 :
+                cnt += item // mid
+            else :
+                cnt += item // mid + 1
+
+        if cnt > b :    # 현재 최대 투표함의 수가 입력받은 투표함의 수보다 많을 경우
+            start = mid + 1 # 각 투표함의 최대 투표수를 늘려야 하기 때문에 시작점 갱신
+        else :  # 현재 최대 투표함의 수가 입력받은 투표함의 수보다 적거나 같을 경우
+            end = mid - 1   # 각 투표함의 최대 투표수를 줄여야 하기 때문에 끝점 갱신
+            
+    stdin.readline()    # 빈줄 입력
+    
+    print(start)
