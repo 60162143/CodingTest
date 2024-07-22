@@ -1,0 +1,54 @@
+
+# 문제 : https://www.acmicpc.net/problem/2121
+
+# keyPoint
+# 1. 이분탐색을 이용하여 해결
+# 2. 함수를 만들어서 코드를 줄임..... 열심히 풀자!
+
+# code
+from sys import stdin
+
+# 입력
+n = int(input())
+a, b = map(int, stdin.readline().split())
+
+graph = []  # 좌표를 저장할 리스트
+
+# 좌표 입력
+for _ in range(n) :
+    x, y = map(int, stdin.readline().split())
+    
+    graph.append((x, y))
+    
+graph.sort(key=lambda x:(x[0], x[1]))   # 이분 탐색을 위한 정렬
+
+count = 0   # 결과값
+
+# 이분 탐색 함수
+def binarySearch(tx, ty) :
+    start, end = 0, n - 1   # 시작점과 끝점
+    
+    # 이분탐색
+    while start <= end :
+        mid = (start + end) // 2 
+        
+        # 중앙값의 좌표가 찾아야 할 좌표일 경우 True 반환
+        if graph[mid][0] == tx and graph[mid][1] == ty :
+            return True
+        
+        if graph[mid][0] < tx : # x좌표를 기준으로 작을 경우 시작점 갱신
+            start = mid + 1
+        
+        # x좌표가 같으면서 y좌표가 작을경우 시작점 갱신
+        elif graph[mid][0] == tx and graph[mid][1] < ty :
+            start = mid + 1
+        else :
+            end = mid - 1
+    return False    # 좌표리스트에 없을 경우 False 반환
+
+for i in range(n) :
+    # 현재 좌표로부터 직사각형을 만들기 위한 세 점의 좌표가 있을 경우 count + 1
+    if binarySearch(graph[i][0] + a, graph[i][1]) and binarySearch(graph[i][0], graph[i][1] + b) and binarySearch(graph[i][0] + a, graph[i][1] + b) :
+        count += 1
+        
+print(count)
