@@ -1,0 +1,35 @@
+
+# 문제 : https://www.acmicpc.net/problem/2428
+
+# keyPoint
+# 1. 이분탐색으로 해결
+# 2. 문제가 순서쌍의 개수를 구하는 것인데 문제를 잘 못 이해해서 오래 걸림....
+# 3. 집중하자.....!
+
+# code
+from sys import stdin
+
+# 입력
+n = int(input())
+file = sorted(list(map(int, stdin.readline().split()))) # 이분탐색을 위한 정렬
+
+count = 0   # 결과값
+
+for i in range(n) :
+    start = i   # 시작점
+    end = n - 1 # 끝점
+    
+    # 이분 탐색
+    while start <= end :
+        mid = (start + end) // 2 
+        
+        # 파일의 크기가 0.9배 이상인 경우 시작점 갱신
+        if file[i] >= file[mid] * 0.9 :
+            start = mid + 1
+        else :
+            end = mid - 1
+    
+    # 끝점에서 현재 점까지의 수만 가능
+    count += end - i
+    
+print(count)
