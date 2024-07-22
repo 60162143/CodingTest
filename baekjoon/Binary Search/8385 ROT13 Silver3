@@ -1,0 +1,38 @@
+
+# 문제 : https://www.acmicpc.net/problem/8385
+
+# keyPoint
+# 1. 집합 자료형을 이용해서 해결
+# 2. 너무 한 알고리즘에 얽매이지 말고 풀수 있는 방법 생각나면 바로 풀어버리자!
+
+# code
+from sys import stdin
+
+n = int(stdin.readline())   # 입력
+
+airplain = []   # 비행기 이름 리스트
+c_airplain = []    # 변환된 이름 리스트
+
+# 중복된 개수가 있는지 확인할 때 시간복잡도를 줄이기 위해 집합 사용
+airplain_set = set()    # 비행기의 이름을 넣을 집합
+c_airplain_set = set()  # 변환된 이름을 넣을 집합
+
+# 입력
+for _ in range(n) :
+    airplain.append(stdin.readline().strip())
+
+a_set = set(airplain)   # 비행기 이름 집합
+
+# 비행기 이름 변환
+for item in airplain :
+    new_word = ""   # 변환된 이름을 담을 문자열
+    
+    # 아스키코드를 이용하여 변환
+    for word in item :
+        new_word += chr(97 + (ord(word) - 97 + 13) % 26)
+    
+    c_airplain.append(new_word) # 변환된 이름 저장
+
+b_set = set(c_airplain) # 변환된 이름 집합
+
+print(len(a_set & b_set))   # 각 집합에 공통으로 있는 이름의 개수
