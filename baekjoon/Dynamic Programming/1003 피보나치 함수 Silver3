@@ -1,0 +1,44 @@
+
+# 문제 : https://www.acmicpc.net/problem/1003
+
+# keyPoint
+# 1. 0과 1의 개수가 각각 n-2, n-1의 fibonacci 만큼 개수가 증가함
+
+# code
+from sys import stdin
+
+# dp를 이용한 피보나치
+def fibonacci(x, dp) :
+    if dp[x] :  # dp 값이 있으면 dp값 return(이미 값이 계산 되어 있는 상태)
+        return dp[x]
+    else :  # dp 값이 없을 경우 dp값 계산 후 dp값 return
+        dp[x] = fibonacci(x - 1, dp) + fibonacci(x - 2, dp)
+        return dp[x]
+
+
+t = int(input())    # 입력
+
+for _ in range(t) :
+    n = int(input())    # 입력
+    
+    zero, one = 0, 0    # 0과 1의 개수
+    
+    if n == 0 : # 0일경우 0만 1개
+        zero = 1
+    elif n == 1 :   # 1일 경우 1만 1개
+        one = 1
+    else :
+        # 0과 1의 개수가 각각 n-2, n-1의 fibonacci 만큼 개수가 증가함
+        # 0을 계산하기 위한 dp
+        dp = [0 for  _ in range(42)]
+        dp[0] = 1
+        dp[1] = 1
+        zero = fibonacci(n - 2, dp)
+        
+        # 1을 계산하기 위한 dp
+        dp = [0 for  _ in range(42)]
+        dp[0] = 1
+        dp[1] = 1
+        one = fibonacci(n - 1, dp)
+    
+    print(f"{zero} {one}")
