@@ -1,0 +1,28 @@
+
+# 문제 : https://www.acmicpc.net/problem/1788
+
+# keyPoint
+# 1. 피보나치는 재귀로 dp를 사용할 수도 있지만 dp만 사용하는게 더 효율적일수도....?
+# 2. 음수도 동일하게 피보나치로 증가하지만 부호만 달라짐
+
+# code
+from sys import stdin
+
+n = int(input())
+
+dp = [0, 1] # 피보나치 수를 저장하는 dp
+
+# 피보나치 수 dp로 계산
+for i in range(2, abs(n) + 1) :
+    dp.append((dp[i - 1] + dp[i - 2]) % 1000000000) # 다음 수를 dp 리스트에 추가
+
+if n > 0 :  # 양수일 경우 1
+    print(1)
+elif n == 0 :   # 0일 경우 0
+    print(0)
+elif abs(n) % 2 == 0 :  # 음수이면서 짝수일 경우 -1
+    print(-1)
+else :  # 음수이면서 홀수일 경우 1
+    print(1)
+
+print(dp[abs(n)])
