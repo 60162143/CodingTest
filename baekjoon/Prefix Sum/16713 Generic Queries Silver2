@@ -1,0 +1,31 @@
+
+# 문제 : https://www.acmicpc.net/problem/16713
+
+# keyPoint
+# 1. XOR이란 비트연산에서 값이 같지 않을때만 1 -> ex) 0100 -> 0010 ==> 0110 이런 식
+# 2. 누적합을 사용한 이유는 자신을 XOR 하면 0이 나오며 자신과 0을 XOR 하면 자신이 나오는 성질을 이용
+# 3. ex) prefix[3]   ^   prefix[1] => [a, b, c, d]  ==> 예시를 든거!!!!
+#        a ^ b ^ c   ^    a        => b ^ c
+
+# code
+from sys import stdin
+
+# 입력
+n, q = map(int, stdin.readline().split())
+arr = list(map(int, stdin.readline().split()))
+
+prefix = [0 for _ in range(n + 1)]  # XOR한 값들을 저장할 누적합 리스트
+
+# 각 수열의 값과 현재까지 누적된 XOR값의 XOR값을 저장
+for idx, item in enumerate(arr) :
+    prefix[idx + 1] = prefix[idx] ^ item
+
+result = 0  # 결과값
+
+# 각 구간의 XOR 값들을 XOR하여 저장
+for _ in range(q) :
+    x, y = map(int, stdin.readline().split())
+    
+    result ^= prefix[y] ^ prefix[x - 1]
+
+print(result)
