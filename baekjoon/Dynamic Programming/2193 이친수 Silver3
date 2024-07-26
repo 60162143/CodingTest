@@ -1,0 +1,18 @@
+
+# 문제 : https://www.acmicpc.net/problem/2193
+
+# keyPoint
+# 1. dp를 이용하여 해결 -> 피보나치
+
+# code
+from sys import stdin
+
+n = int(input())
+
+dp =[1, 1]  # 피보나치 수를 담을 dp
+
+# 피보나치 수 계산
+for i in range(2, n + 1) :
+    dp.append(dp[i - 1] + dp[i - 2])
+
+print(dp[n - 1])
