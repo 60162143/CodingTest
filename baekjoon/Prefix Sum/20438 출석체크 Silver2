@@ -1,0 +1,45 @@
+
+# 문제 : https://www.acmicpc.net/problem/20438
+
+# keyPoint
+# 1. dp와 누적합을 이용해서 해결
+# 2. 문제를 잘못이해해서 시간이 오래걸릴뻔 했지만 빠르게 해결!
+
+# code
+from sys import stdin
+
+# 입력
+n, k, q, m = map(int, stdin.readline().split())
+sleep = set(list(map(int, stdin.readline().split())))
+check = list(map(int, stdin.readline().split()))
+
+ # 학생의 출석 여부를 저장할 리스트
+ # 출석하지 않은 인원의 수를 구해야 하므로 1로 초기화
+dp = [1 for _ in range(n + 3)] 
+pre_sum = [0]   # 출석하지 않은 학생의 수를 저장할 누적합 리스트
+
+# 출석코드를 받는 학생을 탐색
+for item in check :
+    tmp = item  # 학생의 출석코드
+    
+    # 출석코드를 받은 학생이 졸고 있는 학생일 경우 넘어가기
+    if tmp in sleep :
+        continue
+    
+    # 출석코드의 배수 탐색
+    while tmp < n + 3 :
+        # 출석 코드를 넘겨받은 학생이 졸고 있지 않을 경우 출석 체크
+        if tmp not in sleep :
+            dp[tmp] = 0 # 출석하지 않은 인원을 계산해야 하므로 출석시 0으로 갱신
+        
+        tmp += item
+
+# 출석하지 않은 학생의 수를 누적합으로 계산함으로 탐색 시간 단축
+for i in range(1, len(dp)) :
+    pre_sum.append(pre_sum[i - 1] + dp[i])
+
+# 각 구간에 대한 출석하지 않은 학생 수 계산
+for i in range(m) :
+    x, y = map(int, stdin.readline().split())
+    
+    print(pre_sum[y] - pre_sum[x - 1])
